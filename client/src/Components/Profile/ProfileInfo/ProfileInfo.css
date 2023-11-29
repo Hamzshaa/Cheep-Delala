@@ -8,14 +8,15 @@
 
 .profile-info-title {
   /* background-color: green; */
+  color: #919191;
   width: 20%;
-  font-size: 20px;
+  font-size: 14px;
   margin: 0;
 }
 .profile-info-value {
   /* background-color: red; */
+  color: #444;
   width: 80%;
-  font-size: 24px;
-  color: #838383;
+  font-size: 18px;
   margin: 0;
 }

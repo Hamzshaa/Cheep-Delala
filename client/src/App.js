@@ -2,15 +2,22 @@
 // eslint-disable-next-line
 import axios from "axios";
 import "./App.css";
+
+// Bootstrap CSS
+import "bootstrap/dist/css/bootstrap.min.css";
+// Bootstrap Bundle JS
+import "bootstrap/dist/js/bootstrap.bundle.min";
+
 import Navbar from "./Components/Navbar/Navbar";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Home from "./Components/Home";
-import Messages from "./Components/Messages";
+import Messages from "./Components/Messages/Messages";
 import SavedItems from "./Components/SavedItems";
 import Posts from "./Components/Posts";
 import Settings from "./Components/Settings";
 import HelpAndSupports from "./Components/HelpAndSupport";
 import Profile from "./Components/Profile/Profile";
+import PostDetail from "./Components/PostDetail/PostDetail";
 
 // const apiCall = () => {
 //   const server = "http://localhost:8080";
@@ -38,6 +45,7 @@ function App() {
         <Route path="/settings" element={<Settings />} />
         <Route path="/help" element={<HelpAndSupports />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/postdetail" element={<PostDetail />} />
         {/* <button onClick={apiCall}>Make API Call</button> */}
         {/* </header>
         </div> */}

@@ -10,21 +10,21 @@
 .miniprofile-img {
   width: 80px;
   height: 80px;
-  border: 1px solid red;
+  border: 1px solid #0fffc7;
   border-radius: 50%;
-  margin: 0 auto;
+  margin: 0 auto 10px;
 }
 .miniprofile-img img {
-  width: 80%;
-  height: 80%;
+  width: 70%;
+  height: 70%;
   border-radius: 50%;
-  padding: 10%;
+  margin: 15%;
   border: 0;
 }
 .miniprofile h1 {
   color: white;
   font-family: "Comic Sans MS", "Comic Sans", cursive;
-  font-size: 20px;
+  font-size: 16px;
   margin-bottom: 8px;
   text-align: center;
 }

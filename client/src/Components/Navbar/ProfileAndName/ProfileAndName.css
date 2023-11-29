@@ -1,0 +1,37 @@
+* {
+  text-decoration: none;
+}
+.miniprofile {
+  margin-top: 20px;
+  position: absolute;
+  bottom: 100px;
+  left: 30px;
+}
+.miniprofile-img {
+  width: 80px;
+  height: 80px;
+  border: 1px solid red;
+  border-radius: 50%;
+  margin: 0 auto;
+}
+.miniprofile-img img {
+  width: 80%;
+  height: 80%;
+  border-radius: 50%;
+  padding: 10%;
+  border: 0;
+}
+.miniprofile h1 {
+  color: white;
+  font-family: "Comic Sans MS", "Comic Sans", cursive;
+  font-size: 20px;
+  margin-bottom: 8px;
+  text-align: center;
+}
+.miniprofile p {
+  font-family: "Courier New", Courier, monospace;
+  font-size: 13px;
+  color: rgb(164, 164, 164);
+  margin: 0;
+  text-align: center;
+}

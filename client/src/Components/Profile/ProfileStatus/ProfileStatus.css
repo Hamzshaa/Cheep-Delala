@@ -1,0 +1,20 @@
+.profile-status {
+  color: #578c7a;
+  font-family: Arial, sans-serif;
+  /* border: 3px solid black; */
+  margin: 40px 0 0 350px;
+  width: 250px;
+}
+.profile-status-icon {
+  color: #406156;
+  font-size: 40px;
+}
+.profile-status-label {
+  color: black;
+  font-size: 50px;
+  font-weight: 500;
+  margin: 20px 0;
+}
+.profile-status-description {
+  font-size: 26px;
+}

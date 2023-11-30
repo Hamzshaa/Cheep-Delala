@@ -101,5 +101,7 @@ img.col {
   padding-bottom: 50px;
 }
 .suggestion-row {
+  display: flex;
+  flex-wrap: wrap;
   --bs-gutter-x: 0;
 }

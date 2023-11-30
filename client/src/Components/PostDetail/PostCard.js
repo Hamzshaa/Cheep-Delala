@@ -5,7 +5,7 @@ import { CiCircleChevRight } from "react-icons/ci";
 
 function PostCard(props) {
   return (
-    <div className="suggestion-img col">
+    <div className="suggestion-img ">
       <img src={props.url} alt="" />
       <div className="suggestion-title">
         <p>{props.title}</p>

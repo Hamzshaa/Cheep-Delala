@@ -18,6 +18,7 @@ import Settings from "./Components/Settings";
 import HelpAndSupports from "./Components/HelpAndSupport";
 import Profile from "./Components/Profile/Profile";
 import PostDetail from "./Components/PostDetail/PostDetail";
+import FourOFour from "./Components/FourOFour";
 
 // const apiCall = () => {
 //   const server = "http://localhost:8080";
@@ -46,6 +47,7 @@ function App() {
         <Route path="/help" element={<HelpAndSupports />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/postdetail" element={<PostDetail />} />
+        <Route path="/*" element={<FourOFour />} />
         {/* <button onClick={apiCall}>Make API Call</button> */}
         {/* </header>
         </div> */}

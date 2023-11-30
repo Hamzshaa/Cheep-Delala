@@ -73,7 +73,7 @@ function PostDetail() {
       </div>
       <div className="suggestion">
         <h1>You may also like</h1>
-        <div className="suggestion-row row">
+        <div className="suggestion-row">
           <PostCard url="https://picsum.photos/300/200" title="House Title" />
           <PostCard url="https://picsum.photos/300/200" title="House Title" />
           <PostCard url="https://picsum.photos/300/200" title="House Title" />

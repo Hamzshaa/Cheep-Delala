@@ -8,7 +8,13 @@ function ProfileInfo() {
       {Object.keys(ProfileInfoData).map((keyName, i) => (
         <li className="profile-info" key={i}>
           <p className="profile-info-title">{ProfileInfoData[keyName].title}</p>
-          <p className="profile-info-value">{ProfileInfoData[keyName].value}</p>
+          <p
+            className="profile-info-value"
+            contentEditable="true"
+            spellcheck="false"
+          >
+            {ProfileInfoData[keyName].value}
+          </p>
         </li>
       ))}
     </>

@@ -1,0 +1,59 @@
+.message-profile-name {
+  background-color: #91eacc;
+  padding: 50px 250px 50px 50px;
+  margin-top: 59px;
+}
+.messages {
+  margin-left: 400px;
+  margin-right: 50px;
+  position: relative;
+  right: 0;
+  height: 70vh;
+  border: 1px solid rgba(10, 3, 3, 0.359);
+  border-radius: 10px;
+  background-color: red;
+  /* background-color: #fbfbfb;
+  background-image: url("https://www.transparenttextures.com/patterns/crissxcross.png"); */
+  background-color: #ddebe7;
+  background-image: url("https://www.transparenttextures.com/patterns/cutcube.png");
+  /* This is mostly intended for prototyping; please download the pattern and re-host for production environments. Thank you! */
+}
+.message-chat-panel {
+  height: 63vh;
+  overflow-y: scroll;
+  padding-top: 20px;
+}
+.message-chat-panel::-webkit-scrollbar {
+  display: none;
+}
+.message-chat-text-area {
+  background-color: #fff;
+  position: absolute;
+  display: inline-block;
+  bottom: 50px;
+  width: 90%;
+  margin: 0 5%;
+  border-radius: 30px;
+}
+.message-chat-text-area textarea {
+  position: relative;
+  resize: none;
+  width: 75%;
+  margin: 10px 3% 0px;
+  border: none;
+  outline: none;
+  box-shadow: none;
+  overflow-y: scroll;
+  padding-top: 10px;
+}
+textarea::-webkit-scrollbar {
+  display: none;
+}
+.message-chat-text-area button {
+  position: absolute;
+  right: 5%;
+  top: 20px;
+  font-size: 20px;
+  border: none;
+  border-radius: 10px;
+}

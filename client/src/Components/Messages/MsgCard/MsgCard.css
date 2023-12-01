@@ -1,0 +1,38 @@
+.msg-card {
+  font-size: 20px;
+  display: flex;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+.right {
+  justify-content: end;
+  margin-right: 10%;
+}
+.right p {
+  background-color: #91eacc92;
+}
+.msg-card p {
+  padding: 0 30px;
+  margin-right: 10px;
+  border: 1px solid black;
+  border-radius: 30px;
+  font-size: 20px;
+  font-family: "Bradley Hand", cursive;
+}
+.msg-card img {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+}
+.time {
+  display: block;
+  font-size: 16px;
+}
+.left {
+  justify-content: start;
+  margin-left: 10%;
+}
+.left p {
+  margin-left: 10px;
+  background-color: rgba(207, 204, 204, 0.571);
+}

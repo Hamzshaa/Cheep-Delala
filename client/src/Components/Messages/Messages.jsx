@@ -60,7 +60,7 @@ function Messages() {
               id="msg-panel"
               placeholder="Type something..."
               value={msg}
-              row="1"
+              // row="1"
               onChange={handleChange}
             ></textarea>
             <button type="submit" onClick={handleClick}>

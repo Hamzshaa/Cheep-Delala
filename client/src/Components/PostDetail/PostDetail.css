@@ -105,3 +105,12 @@ img.col {
   flex-wrap: wrap;
   --bs-gutter-x: 0;
 }
+
+/* Parameters */
+.parameters-expanded {
+  border-top: 1px solid #00000030;
+  margin: 5% 10%;
+}
+.parameters-collapsed {
+  display: none;
+}

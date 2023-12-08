@@ -19,7 +19,7 @@
   /* This is mostly intended for prototyping; please download the pattern and re-host for production environments. Thank you! */
 }
 .message-chat-panel {
-  height: 63vh;
+  height: 53vh;
   overflow-y: scroll;
   padding-top: 20px;
 }

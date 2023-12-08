@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import "./PostDetail.css";
 import { Link } from "react-router-dom";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 import {
   faFacebook,
@@ -12,8 +14,21 @@ import {
   faPinterest,
 } from "@fortawesome/free-brands-svg-icons";
 import PostCard from "./PostCard";
+import Parameters from "./Parameters/Parameters";
 
 function PostDetail() {
+  const [parameterExpanded, setParameterExpanded] = useState(false);
+
+  const temporaryParameters = {
+    Area: "145 Meter square",
+    Location: "Yeka Abado, Addis Ababa",
+    "number of bedrooms": "5",
+  };
+
+  function handleExpand() {
+    setParameterExpanded(!parameterExpanded);
+  }
+
   return (
     <div className="post-detail">
       <div className="post-detail-info ">
@@ -30,7 +45,22 @@ function PostDetail() {
         <div className="post-detail-sideinfo">
           <h1>12 room Apartment</h1>
           <h2>15,000,000 Birr</h2>
-          <h3>Description</h3>
+          <h3 onClick={handleExpand}>
+            Parameters{" "}
+            {parameterExpanded ? <ChevronRightIcon /> : <ExpandMoreIcon />}
+          </h3>
+
+          <div
+            className={
+              parameterExpanded ? "parameters-collapsed" : "parameters-expanded"
+            }
+          >
+            {Object.keys(temporaryParameters).map((key) => (
+              <Parameters title={key} value={temporaryParameters[key]} />
+            ))}
+          </div>
+          {/* <Parameters /> */}
+          <h3>Description </h3>
           <p>
             Since not all fonts are available on all computers (there are
             thousands of fonts, and most are not free), CSS provides a system of

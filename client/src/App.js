@@ -10,7 +10,7 @@ import "bootstrap/dist/js/bootstrap.bundle.min";
 
 import Navbar from "./Components/Navbar/Navbar";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import Home from "./Components/Home";
+import Home from "./Components/Home/Home";
 import Messages from "./Components/Messages/Messages";
 import SavedItems from "./Components/SavedItems";
 import Posts from "./Components/Posts";
@@ -23,9 +23,9 @@ import FourOFour from "./Components/FourOFour";
 // const apiCall = () => {
 //   const server = "http://localhost:8080";
 //   axios
-//     .get(`${server}/test`)
+//     .get(`${server}/posts`)
 //     .then((data) => {
-//       console.log(data);
+//       console.log(data.data);
 //     })
 //     .catch((err) => {
 //       console.log("Error: ", err);

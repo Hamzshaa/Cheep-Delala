@@ -3,12 +3,13 @@ import { Link } from "react-router-dom";
 import "./PostCard.css";
 
 function PostCard(props) {
+  console.log(props?.post?.uploadedImgs[0]);
   return (
-    <Link to="/postdetail">
+    <Link to={`/postdetail/${props?.post?.id}`}>
       <div className="home_post_img_wrapper">
-        <p className="home_title">{props.title}</p>
-        <p className="home_price">{props.price} Birr</p>
-        <img src={props.imgURL} alt="" />
+        <p className="home_title">{props?.post?.title}</p>
+        <p className="home_price">{props?.post?.price} Birr</p>
+        <img src={props?.post?.uploadedImgs[0]} alt="" />
       </div>
     </Link>
   );

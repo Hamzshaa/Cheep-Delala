@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "./PostDetail.css";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
@@ -15,15 +15,35 @@ import {
 } from "@fortawesome/free-brands-svg-icons";
 import PostCard from "./PostCard";
 import Parameters from "./Parameters/Parameters";
+import axios from "axios";
 
 function PostDetail() {
   const [parameterExpanded, setParameterExpanded] = useState(false);
+  const [postData, setPostData] = useState({});
+  // const postContext = useContext(PostContext);
+  const { id } = useParams();
+  // console.log(id);
 
   const temporaryParameters = {
     Area: "145 Meter square",
     Location: "Yeka Abado, Addis Ababa",
     "number of bedrooms": "5",
   };
+
+  useEffect(() => {
+    fetchPosts();
+  }, []);
+
+  async function fetchPosts() {
+    try {
+      const response = await axios.get(
+        `http://localhost:8080/postdetail/${id}`
+      );
+      setPostData(response.data);
+    } catch (error) {
+      console.error("Error fetching posts:", error);
+    }
+  }
 
   function handleExpand() {
     setParameterExpanded(!parameterExpanded);
@@ -34,7 +54,7 @@ function PostDetail() {
       <div className="post-detail-info ">
         <div className="post-detail-imgs ">
           <div className="post-detail-row row">
-            <img src="https://picsum.photos/200" alt="" className="col" />
+            <img src={postData.imgUrl} alt="" className="col" />
           </div>
           <div className="post-detail-row row">
             <img src="https://picsum.photos/200" alt="" className="col-4" />
@@ -43,16 +63,18 @@ function PostDetail() {
           </div>
         </div>
         <div className="post-detail-sideinfo">
-          <h1>12 room Apartment</h1>
-          <h2>15,000,000 Birr</h2>
+          <h1>{postData.title}</h1>
+          <h2>{postData.price} Birr</h2>
           <h3 onClick={handleExpand}>
             Parameters{" "}
-            {parameterExpanded ? <ChevronRightIcon /> : <ExpandMoreIcon />}
+            {!parameterExpanded ? <ChevronRightIcon /> : <ExpandMoreIcon />}
           </h3>
 
           <div
             className={
-              parameterExpanded ? "parameters-collapsed" : "parameters-expanded"
+              !parameterExpanded
+                ? "parameters-collapsed"
+                : "parameters-expanded"
             }
           >
             {Object.keys(temporaryParameters).map((key) => (

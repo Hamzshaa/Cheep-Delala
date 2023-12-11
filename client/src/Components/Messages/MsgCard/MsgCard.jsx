@@ -27,7 +27,7 @@ function MsgCard(props) {
           <img alt="" src="https://picsum.photos/200" />
           <p>
             {props.message}
-            <span className="time">{time}</span>
+            <span className="time">{props.time}</span>
           </p>
         </div>
       )}

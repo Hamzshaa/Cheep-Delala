@@ -4,7 +4,7 @@
 .profile-container {
   background-color: #91eacc;
   /* margin-left: 250px; */
-  margin-top: 60px;
+  margin-top: 59px;
   margin-bottom: 60px;
   width: 100%;
 }
@@ -34,4 +34,20 @@
 .profile-statuses {
   display: flex;
   margin: 50px 0 0 350px;
+}
+
+/* photo uploader  */
+
+.profile-photo {
+  display: flex;
+}
+.photo-uploader {
+  position: relative;
+  top: 130px;
+  left: 20px;
+}
+.photo-uploader label {
+  font-size: 20px;
+  font-weight: 500;
+  /* border: solid 1px black; */
 }

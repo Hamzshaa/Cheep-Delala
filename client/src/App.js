@@ -13,7 +13,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Home from "./Components/Home/Home";
 import Messages from "./Components/Messages/Messages";
 import SavedItems from "./Components/SavedItems";
-import Posts from "./Components/Posts";
+import Post from "./Components/Post/Post";
 import Settings from "./Components/Settings";
 import HelpAndSupports from "./Components/HelpAndSupport";
 import Profile from "./Components/Profile/Profile";
@@ -42,11 +42,11 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/messages" element={<Messages />} />
         <Route path="/saveditems" element={<SavedItems />} />
-        <Route path="/posts" element={<Posts />} />
+        <Route path="/posts" element={<Post />} />
         <Route path="/settings" element={<Settings />} />
         <Route path="/help" element={<HelpAndSupports />} />
         <Route path="/profile" element={<Profile />} />
-        <Route path="/postdetail" element={<PostDetail />} />
+        <Route path="/postdetail/:id" element={<PostDetail />} />
         <Route path="/*" element={<FourOFour />} />
         {/* <button onClick={apiCall}>Make API Call</button> */}
         {/* </header>

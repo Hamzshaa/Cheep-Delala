@@ -1,9 +1,15 @@
-import React from "react";
+import React, { useContext } from "react";
 import "./ProfileAndName.css";
 import { Link } from "react-router-dom";
+import _ from "lodash";
+import { LoginStatusContext } from "../../../App";
 
 function ProfileAndName() {
-  return (
+  const { loginStatus, loginStatusHandler } = useContext(LoginStatusContext);
+
+  return _.isEqual(loginStatus, {}) ? (
+    <></>
+  ) : (
     <div className="miniprofile">
       <Link to="/profile">
         <div className="miniprofile-img">
@@ -15,10 +21,10 @@ function ProfileAndName() {
         </div>
       </Link>
       <Link to="/profile">
-        <h1>Hawas Muhaba</h1>
+        <h1>{loginStatus.name}</h1>
       </Link>
       <Link to="/miniprofile">
-        <p>hawasmuhaba123@gmail.com</p>
+        <p>{loginStatus.email}</p>
       </Link>
     </div>
   );

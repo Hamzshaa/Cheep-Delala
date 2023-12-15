@@ -2,7 +2,7 @@
   background-color: #0fffc79b;
   padding: 15px 15px;
   width: 300px;
-  max-height: 375px;
+  /* max-height: 375px; */
   border-radius: 10px;
   margin: 40px 20px;
   transition: transform 0.5s ease;
@@ -12,6 +12,7 @@
 }
 
 .home_post_img_wrapper .home_title {
+  text-align: left;
   font-size: 24px;
   font-weight: 700;
   margin-bottom: 0;
@@ -19,9 +20,11 @@
 }
 
 .home_post_img_wrapper .home_price {
+  text-align: left;
   font-size: 18px;
   font-weight: 500;
   padding: 0 15px;
+  margin: 5px 0 10px;
 }
 .home_post_img_wrapper img {
   width: 100%;

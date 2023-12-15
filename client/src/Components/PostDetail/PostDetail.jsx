@@ -22,12 +22,12 @@ function PostDetail() {
   const [postData, setPostData] = useState({});
   // const postContext = useContext(PostContext);
   const { id } = useParams();
-  // console.log(id);
+  console.log(id);
 
   const temporaryParameters = {
-    Area: "145 Meter square",
-    Location: "Yeka Abado, Addis Ababa",
-    "number of bedrooms": "5",
+    Area: postData.area + " sq meter",
+    Location: postData.location,
+    "number of bedrooms": postData.bedrooms,
   };
 
   useEffect(() => {
@@ -53,14 +53,18 @@ function PostDetail() {
     <div className="post-detail">
       <div className="post-detail-info ">
         <div className="post-detail-imgs ">
-          <div className="post-detail-row row">
-            <img src={postData.imgUrl} alt="" className="col" />
-          </div>
-          <div className="post-detail-row row">
-            <img src="https://picsum.photos/200" alt="" className="col-4" />
-            <img src="https://picsum.photos/200" alt="" className="col-4" />
-            <img src="https://picsum.photos/200" alt="" className="col-4 " />
-          </div>
+          {postData.uploadedImgs && postData.uploadedImgs.length > 0 && (
+            <div className="post-detail-row row">
+              <img src={postData.uploadedImgs[0]} alt="" className="col" />
+            </div>
+          )}
+          {postData.uploadedImgs && postData.uploadedImgs.length > 3 && (
+            <div className="post-detail-row row">
+              <img src={postData.uploadedImgs[1]} alt="" className="col-4" />
+              <img src={postData.uploadedImgs[2]} alt="" className="col-4" />
+              <img src={postData.uploadedImgs[3]} alt="" className="col-4 " />
+            </div>
+          )}
         </div>
         <div className="post-detail-sideinfo">
           <h1>{postData.title}</h1>
@@ -78,17 +82,15 @@ function PostDetail() {
             }
           >
             {Object.keys(temporaryParameters).map((key) => (
-              <Parameters title={key} value={temporaryParameters[key]} />
+              <Parameters
+                title={key}
+                value={temporaryParameters[key]}
+                postData={postData}
+              />
             ))}
           </div>
-          {/* <Parameters /> */}
           <h3>Description </h3>
-          <p>
-            Since not all fonts are available on all computers (there are
-            thousands of fonts, and most are not free), CSS provides a system of
-            fallbacks. You list the font that you want first, then any fonts
-            that might fill in for the first if it is unavailable
-          </p>
+          <p>{postData.description}</p>
           <Link to="/messages">
             <div className="send-message-btn">
               <span className="btn-txt">Send Message</span>

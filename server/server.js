@@ -5,8 +5,9 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 
 app.use(cors());
-app.use(bodyParser.json({ limit: "10mb" }));
-app.use(bodyParser.urlencoded({ limit: "10mb", extended: true }));
+app.use(bodyParser.json({ limit: "100mb" }));
+app.use(bodyParser.urlencoded({ limit: "100mb", extended: true }));
+app.use(express.json());
 // app.use(express.json());
 // app.use(express.urlencoded({ extended: true }));
 
@@ -43,6 +44,23 @@ const postSchema = new mongoose.Schema({
 
 const Postt = mongoose.model("Postt", postSchema);
 const Message = mongoose.model("Message", messageSchema);
+
+const userSchema = new mongoose.Schema({
+  name: { type: String, required: true },
+  email: { type: String, required: true },
+  password: { type: String, required: true },
+  confirmation: { type: String, required: true },
+  phoneNu: { type: String, required: false },
+  location: { type: String, required: false },
+  additional_info: {
+    profile_pic_url: String,
+    bio: String,
+    username: String,
+    location: String,
+  },
+});
+
+const User = mongoose.model("User", userSchema);
 
 // const post1 = new Post({
 //   title: "Modern House",
@@ -132,7 +150,7 @@ app.get("/posts", (req, res) => {
 });
 app.get("/postdetail/:id", (req, res) => {
   const postId = req.params.id;
-  Post.findOne({ _id: postId }).then((post) => {
+  Postt.findOne({ _id: postId }).then((post) => {
     // console.log(post);
     res.send(post);
   });
@@ -151,6 +169,51 @@ app.get("/messages/:sender/:receiver", (req, res) => {
     // console.log(messages);
     res.send(messages);
   });
+});
+
+app.post("/userData", (req, res) => {
+  const userInfo = req.body;
+  console.log(userInfo);
+  const newUser = new User(userInfo);
+
+  newUser
+    .save()
+    .then(() => {
+      console.log("user saved to the database successfully");
+      res.status(200).json({ message: "Data received successfully" });
+    })
+    .catch((error) => {
+      console.log("Error saving user:", error);
+      res
+        .status(500)
+        .json({ error: "An error occurred while saving the user" });
+    });
+});
+
+app.post("/login", function (req, res) {
+  const userInputedEmail = req.body.email;
+  const userInputedPassword = req.body.password;
+
+  console.log("login route: ", userInputedEmail, userInputedPassword);
+
+  User.findOne({ email: userInputedEmail })
+    .then((foundUser) => {
+      if (foundUser) {
+        if (foundUser.password === userInputedPassword) {
+          res.status(200).json(foundUser);
+        } else {
+          res.status(401).json({ error: "Invalid password" });
+        }
+      } else {
+        res.status(404).json({ error: "User not found" });
+      }
+    })
+    .catch((error) => {
+      console.error("Error finding user:", error);
+      res
+        .status(500)
+        .json({ error: "An error occurred while finding the user" });
+    });
 });
 
 app.listen(8080, () => {

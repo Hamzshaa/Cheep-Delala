@@ -18,7 +18,8 @@ a {
 }
 img.col-4 {
   padding: 0 1%;
-  border-radius: 10%;
+  /* border-radius: 10%; */
+  object-fit: cover;
 }
 img.col {
   padding: 0 1%;
@@ -57,6 +58,7 @@ img.col {
   font-size: 16px;
   font-weight: 400;
   line-height: 24px;
+  text-align: left;
 }
 .send-message-btn {
   /* background-color: #f04343; */

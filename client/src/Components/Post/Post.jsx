@@ -23,19 +23,7 @@ const Posts = () => {
       ...submittedInput,
       uploadedImgs,
     }));
-    // console.log(submitedInfo);
     console.log(uploadedImgs);
-    // try {
-    //   const response = await axios.post(
-    //     "http://localhost:8080/test",
-    //     submitedInfo
-    //   );
-    //   console.log("Form submitted successfully");
-    //   // Handle successful response
-    // } catch (error) {
-    //   console.error("Error submitting form");
-    //   // Handle error
-    // }
   }
 
   function handleInputChange(e) {
@@ -46,14 +34,6 @@ const Posts = () => {
     }));
   }
 
-  // function handleCheckboxChange(e) {
-  //   const { name, checked } = e.target;
-  //   setIsChecked(e.target.isChecked);
-  //   setSubmitedInfo((prevInfo) => ({
-  //     ...prevInfo,
-  //     [name]: checked,
-  //   }));
-  // }
   useEffect(() => {
     const submitForm = async () => {
       try {
@@ -61,12 +41,9 @@ const Posts = () => {
           "http://localhost:8080/post",
           submitedInfo
         );
-        setIsChecked(true);
         console.log("Form submitted successfully");
-        // Handle successful response
       } catch (error) {
-        console.error("Error submitting form");
-        // Handle error
+        console.error("Error submitting form", error);
       }
     };
 
@@ -79,32 +56,13 @@ const Posts = () => {
     let reader = new FileReader();
     reader.readAsDataURL(e.target.files[0]);
     reader.onload = () => {
-      // console.log("Readerrr: ", reader.result);
       setUploadedImgs((prevFiles) => {
         return [...prevFiles, reader.result];
       });
-      // setSubmitedInfo((prevInfo) => ({
-      //   ...prevInfo,
-      //   uploadedImgs: uploadedImgs,
-      // }));
     };
     reader.onerror = (error) => {
       console.log("Reader: ", error);
     };
-
-    console.log("dkfjadklfj", uploadedImgs);
-
-    // const file = e.target.files[0];
-    // console.log("readUrl", e.target.files[0]);
-    // setUploadedImgs((prevFiles) => {
-    //   return [...prevFiles, URL.createObjectURL(file)];
-    // });
-    // console.log("readURL", uploadedImgs);
-    // setSubmitedInfo((prevInfo) => ({
-    //   ...prevInfo,
-    //   [uploadedImgs]: uploadedImgs,
-    // }));
-    // Rest of the code...
   };
 
   const addNewUpload = () => {
@@ -158,27 +116,19 @@ const Posts = () => {
                       <div className="col-sm-3">
                         <div className="docErr">Please upload valid file</div>
                         <div className="fileUpload btn btn-orange">
-                          <span className="upl" id="upload">
+                          {/* <span className="upl" id="upload">
                             <FontAwesomeIcon icon={faUpload} />
                             Upload Image
-                          </span>
+                          </span> */}
                           <input
                             type="file"
-                            className="upload up"
+                            className="upload-img up"
                             id="up"
                             onChange={readURL}
+                            required
                             accept=".jpg, .jpeg, .png"
                           />
                         </div>
-                      </div>
-
-                      <div className="col-sm-8">
-                        <input
-                          type="text"
-                          className="form-control"
-                          name=""
-                          placeholder="Note (Optional)"
-                        />
                       </div>
 
                       <div className="closeBtn">
@@ -201,6 +151,7 @@ const Posts = () => {
                   name="title"
                   placeholder="Title: eg - The White House"
                   onChange={handleInputChange}
+                  required
                 />
                 <input
                   type="text"
@@ -209,6 +160,7 @@ const Posts = () => {
                   placeholder="Location eg: Mekanisa Street,
                   A.A,Ethiopia"
                   onChange={handleInputChange}
+                  required
                 />
                 <input
                   type="text"
@@ -216,6 +168,7 @@ const Posts = () => {
                   name="area"
                   placeholder="Area (sqMeter)"
                   onChange={handleInputChange}
+                  required
                 />
                 <input
                   type="text"
@@ -223,6 +176,7 @@ const Posts = () => {
                   name="bedrooms"
                   placeholder="Number of Bedroom eg: 2"
                   onChange={handleInputChange}
+                  required
                 />
                 <input
                   type="text"
@@ -230,6 +184,7 @@ const Posts = () => {
                   name="description"
                   placeholder="Description"
                   onChange={handleInputChange}
+                  required
                 />
                 <input
                   type="text"
@@ -237,6 +192,7 @@ const Posts = () => {
                   name="price"
                   placeholder="Price in ETB"
                   onChange={handleInputChange}
+                  required
                 />
                 <input
                   type="text"
@@ -244,28 +200,9 @@ const Posts = () => {
                   name="for"
                   placeholder="what is the for, sale or rent"
                   onChange={handleInputChange}
+                  required
                 />
-                {/* <div className="checkbox-wrapper-4">
-                  <input
-                    className="inp-cbx"
-                    name="sale"
-                    id="morning"
-                    type="checkbox"
-                    onChange={handleCheckboxChange}
-                    checked={isChecked}
-                  />
-                  <label className="cbx" htmlFor="morning">
-                    <span>
-                      <svg width="12px" height="10px"></svg>
-                    </span>
-                    <span>Click if it is For Sale</span>
-                  </label>
-                  <svg className="inline-svg">
-                    <symbol id="check-4" viewbox="0 0 12 10">
-                      <polyline points="1.5 6 4.5 9 10.5 1"></polyline>
-                    </symbol>
-                  </svg>
-                </div> */}
+
                 <div className="text-center">
                   <button className="btn btn-next" type="submit">
                     <FontAwesomeIcon icon={faPaperPlane} />

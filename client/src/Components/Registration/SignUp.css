@@ -1,0 +1,74 @@
+.shignup-container {
+  width: fit-content;
+  height: fit-content;
+  background-image: url("./houseTwo.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  margin-bottom: 10px;
+  padding: 10px;
+}
+
+.signup {
+  /* background-color: green; */
+  height: 500px;
+  width: 60%;
+  margin-top: -20px;
+  margin-left: 280px;
+  position: relative;
+  text-align: center;
+
+  /* background: linear-gradient(to bottom, rgba(255, 255, 255, 0), rgba(255, 255, 255, 1)); */
+  background-color: rgba(11, 209, 107, 0.5);
+  /* background: transparent; */
+
+  opacity: 0.8;
+  color: white;
+}
+
+.sign-in p {
+  padding-right: 3px;
+}
+
+.sign-in {
+  display: inline-flex;
+  margin-bottom: -10px;
+  text-align: justify;
+}
+
+.signup-input {
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 1000px;
+}
+.signup-checkbox {
+  margin-left: 80px;
+  margin-top: 20px;
+  width: 450px;
+}
+.signup-checkbox label {
+  margin-left: 10px;
+}
+.signup-checkbox a {
+  color: white;
+}
+.signup .signup-buttons {
+  margin-left: 450px;
+  margin-top: 43px;
+}
+button {
+  margin-left: 10px;
+  width: 80px;
+  height: 35px;
+  border: none;
+  /* background-color: transparent; */
+}
+
+.secondOne {
+  background-color: #5df45d;
+  color: white;
+}
+
+.secondOneTwo {
+  background-color: #0fffc7;
+}

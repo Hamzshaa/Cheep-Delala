@@ -1,12 +1,14 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import "./Profile.css";
 import ProfileStatus from "./ProfileStatus/ProfileStatus";
 import MessageIcon from "./MessageIcon/MessageIcon";
 import ProfileInfo from "./ProfileInfo/ProfileInfo";
 import PhotoUploader from "./PhotoUploader";
+import { LoginStatusContext } from "../../App";
 
 function Profile() {
   const [selectedPhoto, setSelectedPhoto] = useState(null);
+  const { loginStatus, loginStatusHandler } = useContext(LoginStatusContext);
 
   // const handleFileChange = (event) => {
   //   const file = event.target.files[0];
@@ -43,7 +45,7 @@ function Profile() {
           />
           <PhotoUploader onFileSelect={handleFileSelect} />
         </div>
-        <h1 className="profile-name">Hawas Muhaba</h1>
+        <h1 className="profile-name">{loginStatus?.name}</h1>
         <p className="profile-username">
           Hawasishaa<span>@cheepDelala</span>
         </p>

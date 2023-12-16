@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "./Post.css";
 // import houseImg from "./Images/House.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -7,14 +7,15 @@ import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
 import { faUpload } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
+import { LoginStatusContext } from "../../App";
 
 const Posts = () => {
   const [uploadedFiles, setUploadedFiles] = useState([]);
   const [uploadedImgs, setUploadedImgs] = useState([]);
   const [submitedInfo, setSubmitedInfo] = useState({});
   const [submittedInput, setSubmittedInput] = useState({});
-  const [isChecked, setIsChecked] = useState(false);
-  const [isSubmitted, setIsSubmitted] = useState(false);
+
+  const { loginStatus, loginStatusHandler } = useContext(LoginStatusContext);
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -22,6 +23,7 @@ const Posts = () => {
       ...prevInfo,
       ...submittedInput,
       uploadedImgs,
+      user: loginStatus,
     }));
     console.log(uploadedImgs);
   }
@@ -48,8 +50,8 @@ const Posts = () => {
     };
 
     // if (submitedInfo.uploadedImgs.length > 0) {
-    submitForm();
     // }
+    submitForm();
   }, [submitedInfo]);
 
   const readURL = (e) => {

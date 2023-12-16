@@ -8,7 +8,9 @@ function ProfileAndName() {
   const { loginStatus, loginStatusHandler } = useContext(LoginStatusContext);
 
   return _.isEqual(loginStatus, {}) ? (
-    <></>
+    <Link to="/signup" className="sidebar-sign-up">
+      <p>SIGN UP</p>
+    </Link>
   ) : (
     <div className="miniprofile">
       <Link to="/profile">

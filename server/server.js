@@ -19,32 +19,6 @@ mongoose.connect("mongodb://127.0.0.1:27017/postDB");
 //   imgUrl: String,
 // });
 
-const messageSchema = new mongoose.Schema({
-  sender: String,
-  receiver: String,
-  message: [
-    {
-      text: String,
-      time: String,
-      direction: String,
-    },
-  ],
-});
-
-const postSchema = new mongoose.Schema({
-  title: String,
-  for: String,
-  bedrooms: String,
-  area: String,
-  location: String,
-  description: String,
-  price: String,
-  uploadedImgs: [String],
-});
-
-const Postt = mongoose.model("Postt", postSchema);
-const Message = mongoose.model("Message", messageSchema);
-
 const userSchema = new mongoose.Schema({
   name: { type: String, required: true },
   email: { type: String, required: true },
@@ -59,8 +33,85 @@ const userSchema = new mongoose.Schema({
     location: String,
   },
 });
-
 const User = mongoose.model("User", userSchema);
+
+const messageSchema = new mongoose.Schema({
+  sender: String,
+  receiver: String,
+  message: [
+    {
+      text: String,
+      time: String,
+      direction: String,
+    },
+  ],
+});
+const Message = mongoose.model("Message", messageSchema);
+
+const postSchema = new mongoose.Schema({
+  user: userSchema,
+  title: String,
+  for: String,
+  bedrooms: String,
+  area: String,
+  location: String,
+  description: String,
+  price: String,
+  uploadedImgs: [String],
+});
+
+const Postt = mongoose.model("Postt", postSchema);
+const Post = mongoose.model("Post", postSchema);
+
+app.post("/adminpost", (req, res) => {
+  // const postId = req.params.id;
+  const submittedInfo = req.body;
+
+  // console.log(submittedInfo);
+  // Post.findOne({ _id: postId }).then((post) => {
+  // console.log(post);
+  const post = new Postt(submittedInfo)
+    .save()
+    .then(() => {
+      console.log("Saved to DB, in adminpost route");
+      res.status(200).json({ message: "Form submitted successfully" });
+    })
+    .catch((e) => {
+      console.log("Error in post route:", e);
+      res.status(500).json({ message: "Error in saving the post" });
+    });
+});
+app.get("/adminpost", (req, res) => {
+  Post.find({ title: { $exists: true } }).then((posts) => {
+    // console.log(posts);
+    res.send(posts);
+  });
+});
+
+app.delete("/adminpost/:id", (req, res) => {
+  const postId = req.params.id;
+
+  console.log("QNNNNNN", postId);
+  // Perform any necessary operations or validations
+  // For example, you might want to check if the post exists and if the user has the necessary permissions to delete it.
+
+  // Assuming you have a Post model or database collection
+  Post.findOneAndDelete({ _id: postId })
+    .then((deletedPost) => {
+      console.log(deletedPost);
+      if (!deletedPost) {
+        console.log("Post not found");
+        return res.status(404).json({ message: "Post not found" });
+      }
+
+      res.status(200).json({ message: "Post deleted successfully" });
+      console.log("Post deleted successfully");
+    })
+    .catch((error) => {
+      console.error("Error deleting post:", error);
+      res.status(500).json({ message: "Error deleting post" });
+    });
+});
 
 // const post1 = new Post({
 //   title: "Modern House",
@@ -119,29 +170,60 @@ const User = mongoose.model("User", userSchema);
 app.get("/", (req, res) => {
   res.send("Hello from our server");
 });
+
 app.post("/post", (req, res) => {
   const submittedInfo = req.body;
   // Process the submittedInfo data as needed
-  const post = new Postt(submittedInfo)
-    .save()
-    .then(() => {
-      console.log("Saved to DB");
-    })
-    .catch((e) => {
-      console.log("Error in post route:", e);
-    });
+  if (
+    submittedInfo.hasOwnProperty("title") &&
+    submittedInfo.user &&
+    submittedInfo.user.confirmation &&
+    submittedInfo.user.password &&
+    submittedInfo.user.email &&
+    submittedInfo.user.name
+  ) {
+    const post = new Post(submittedInfo)
+      .save()
+      .then(() => {
+        console.log("Saved to DB");
+      })
+      .catch((e) => {
+        console.log("Error in post route:", e);
+      });
+  }
   console.log(submittedInfo);
   // Perform any necessary operations or validations
 
   // Send a response back to the client
   res.status(200).json({ message: "Form submitted successfully" });
 });
+
 app.get("/post", (req, res) => {
   Postt.find({ title: { $exists: true } }).then((posts) => {
     // console.log(posts);
     res.send(posts);
   });
 });
+
+app.delete("/post/:id", (req, res) => {
+  const postId = req.params.id;
+  Postt.findOneAndDelete({ _id: postId })
+    .then((deletedPost) => {
+      console.log(deletedPost);
+      if (!deletedPost) {
+        console.log("Post not found");
+        return res.status(404).json({ message: "Post not found" });
+      }
+
+      res.status(200).json({ message: "Post deleted successfully" });
+      console.log("Post deleted successfully");
+    })
+    .catch((error) => {
+      console.error("Error deleting post:", error);
+      res.status(500).json({ message: "Error deleting post" });
+    });
+});
+
 app.get("/posts", (req, res) => {
   Post.find().then((posts) => {
     // console.log(posts);
@@ -151,6 +233,14 @@ app.get("/posts", (req, res) => {
 app.get("/postdetail/:id", (req, res) => {
   const postId = req.params.id;
   Postt.findOne({ _id: postId }).then((post) => {
+    // console.log(post);
+    res.send(post);
+  });
+});
+
+app.get("/adminpostdetail/:id", (req, res) => {
+  const postId = req.params.id;
+  Post.findOne({ _id: postId }).then((post) => {
     // console.log(post);
     res.send(post);
   });

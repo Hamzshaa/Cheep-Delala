@@ -7,7 +7,9 @@
 }
 .profile-status-icon {
   color: #406156;
-  font-size: 20px;
+  font-size: 24px;
+  display: block;
+  margin: 0 auto;
 }
 .profile-status-label {
   color: black;

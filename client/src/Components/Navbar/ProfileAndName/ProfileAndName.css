@@ -35,3 +35,20 @@
   margin: 0;
   text-align: center;
 }
+.sidebar-sign-up {
+  background-color: #0c0;
+  padding: 5px;
+  position: absolute;
+  bottom: 100px;
+  left: 45px;
+  height: 30px;
+  width: 160px;
+  border-radius: 5px;
+}
+.sidebar-sign-up > p {
+  color: #fff;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  margin: 0 auto;
+}

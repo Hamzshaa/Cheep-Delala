@@ -1,13 +1,11 @@
-import React from "react";
+import React, { useContext } from "react";
 import "./Dashboard.css";
 import RequestRow from "../RequestRow";
 import { PostContext } from "../../App";
-import { useContext } from "react";
 import axios from "axios";
 
 const WaitingDashboard = () => {
   const { waitingPosts } = useContext(PostContext);
-  //   console.log("Dashboard", posts);
   const handleApprove = async (id) => {
     try {
       const response = await axios.post(
@@ -21,12 +19,9 @@ const WaitingDashboard = () => {
 
     console.log(`Approving post request with ID: ${id}`);
   };
-
-  // Add your logic to handle post approval
-
+  console.log(waitingPosts);
   const handleReject = (id) => {
     console.log(`Rejecting post request with ID: ${id}`);
-    // Add your logic to handle post rejection
   };
 
   return (
@@ -40,7 +35,6 @@ const WaitingDashboard = () => {
       </li>
       {Object.keys(waitingPosts).map((key) => {
         const post = waitingPosts[key];
-        // console.log("li", posts);
         return (
           <RequestRow
             post={post}

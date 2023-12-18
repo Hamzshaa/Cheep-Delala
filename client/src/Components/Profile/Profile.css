@@ -3,7 +3,6 @@
 }
 .profile-container {
   background-color: #91eacc;
-  /* margin-left: 250px; */
   margin-top: 59px;
   margin-bottom: 60px;
   width: 100%;
@@ -27,6 +26,7 @@
   font-weight: 500;
   color: rgb(72, 68, 68);
   margin: 12px 0 0 350px;
+  text-align: left;
 }
 .profile-username span {
   color: rgb(17, 16, 16);
@@ -49,5 +49,4 @@
 .photo-uploader label {
   font-size: 20px;
   font-weight: 500;
-  /* border: solid 1px black; */
 }

@@ -1,5 +1,5 @@
-import React, { useContext, useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
@@ -11,15 +11,12 @@ function PostDetail() {
   const [parameterExpanded, setParameterExpanded] = useState(false);
   const [postData, setPostData] = useState({});
   const { id } = useParams();
-  // console.log(id);
 
   const temporaryParameters = {
     Area: postData.area + " sq meter",
     Location: postData.location,
     "number of bedrooms": postData.bedrooms,
   };
-
-  const time = () => {};
 
   useEffect(() => {
     fetchPosts();
@@ -42,50 +39,67 @@ function PostDetail() {
   }
 
   return (
-    <div className="post-detail">
-      <div className="post-detail-info ">
-        <div className="post-detail-imgs ">
-          {postData.uploadedImgs && postData.uploadedImgs.length > 0 && (
-            <div className="post-detail-row row">
-              <img src={postData.uploadedImgs[0]} alt="" className="col" />
+    <>
+      {Object.keys(postData).length > 0 && (
+        <div className="post-detail">
+          <div className="post-detail-info">
+            <div className="post-detail-imgs">
+              {postData.uploadedImgs && postData.uploadedImgs.length > 0 && (
+                <div className="post-detail-row row">
+                  <img src={postData.uploadedImgs[0]} alt="" className="col" />
+                </div>
+              )}
+              {postData.uploadedImgs && postData.uploadedImgs.length > 3 && (
+                <div className="post-detail-row row">
+                  <img
+                    src={postData.uploadedImgs[1]}
+                    alt=""
+                    className="col-4"
+                  />
+                  <img
+                    src={postData.uploadedImgs[2]}
+                    alt=""
+                    className="col-4"
+                  />
+                  <img
+                    src={postData.uploadedImgs[3]}
+                    alt=""
+                    className="col-4 "
+                  />
+                </div>
+              )}
             </div>
-          )}
-          {postData.uploadedImgs && postData.uploadedImgs.length > 3 && (
-            <div className="post-detail-row row">
-              <img src={postData.uploadedImgs[1]} alt="" className="col-4" />
-              <img src={postData.uploadedImgs[2]} alt="" className="col-4" />
-              <img src={postData.uploadedImgs[3]} alt="" className="col-4 " />
-            </div>
-          )}
-        </div>
-        <div className="post-detail-sideinfo">
-          <h1>{postData.title}</h1>
-          <h2>{postData.price} Birr</h2>
-          <h3 onClick={handleExpand}>
-            Parameters{" "}
-            {!parameterExpanded ? <ChevronRightIcon /> : <ExpandMoreIcon />}
-          </h3>
+            <div className="post-detail-sideinfo">
+              <h1>{postData.title}</h1>
+              <h2>{postData.price} Birr</h2>
+              <h3 onClick={handleExpand}>
+                Parameters{" "}
+                {!parameterExpanded ? <ChevronRightIcon /> : <ExpandMoreIcon />}
+              </h3>
 
-          <div
-            className={
-              !parameterExpanded
-                ? "parameters-collapsed"
-                : "parameters-expanded"
-            }
-          >
-            {Object.keys(temporaryParameters).map((key) => (
-              <Parameters
-                title={key}
-                value={temporaryParameters[key]}
-                postData={postData}
-              />
-            ))}
+              <div
+                className={
+                  !parameterExpanded
+                    ? "parameters-collapsed"
+                    : "parameters-expanded"
+                }
+              >
+                {Object.keys(temporaryParameters).map((key) => (
+                  <Parameters
+                    key={key}
+                    title={key}
+                    value={temporaryParameters[key]}
+                    postData={postData}
+                  />
+                ))}
+              </div>
+              <h3>Description</h3>
+              <p>{postData.description}</p>
+            </div>
           </div>
-          <h3>Description </h3>
-          <p>{postData.description}</p>
         </div>
-      </div>
-    </div>
+      )}
+    </>
   );
 }
 

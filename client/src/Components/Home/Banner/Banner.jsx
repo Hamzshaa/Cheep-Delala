@@ -1,5 +1,6 @@
 import React from "react";
 import "./Banner.css";
+const imageh = require("./imgs/bg-21.jpg");
 
 function Banner() {
   return (
@@ -7,12 +8,12 @@ function Banner() {
       className="banner"
       style={{
         backgroundSize: "cover",
-        backgroundImage: `url("https://images.unsplash.com/photo-1572811957812-aa542143b4ab?q=80&w=1742&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D")`,
-        backgroundPosition: "center center",
+        backgroundImage: `url(${imageh})`,
+        backgroundPosition: "center",
       }}
     >
       <div className="banner_contents">
-        <div className="banner_title">Cheep Delala</div>
+        <div className="banner_title">Cheap Delala</div>
         <h1 className="banner_description">
           Find Your Perfect Home: Discover a vast selection of houses for sale
           and rent on our website. Explore listings, connect with trusted

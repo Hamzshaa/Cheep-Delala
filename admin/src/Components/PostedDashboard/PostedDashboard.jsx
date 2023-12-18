@@ -1,8 +1,7 @@
-import React, { useState, useContext } from "react";
+import React, { useContext } from "react";
 import PostedRow from "./PostedRow";
 import { PostContext } from "../../App";
 import { useParams } from "react-router-dom";
-// import axios from "axios";
 
 function PostedDashboard() {
   const { type } = useParams();
@@ -12,7 +11,6 @@ function PostedDashboard() {
   const posts = {};
   const handleReject = (id) => {
     console.log(`Rejecting post request with ID: ${id}`);
-    // Add your logic to handle post rejection
   };
 
   return (

@@ -5,10 +5,11 @@ a {
 .home {
   margin-top: 59px;
   margin-left: 350px;
-  /* background-color: green; */
+}
+.home-container {
+  background-color: #fff;
 }
 .home_navbar {
-  /* background-color: red; */
   padding-top: 30px;
   padding-left: 20px;
   margin-bottom: 20px;
@@ -20,7 +21,6 @@ a {
   cursor: pointer;
 }
 .home_button_not_clicked {
-  /* margin: 0 15px; */
   font-size: 20px;
   transition-duration: 0.8s;
 }
@@ -32,17 +32,6 @@ a {
 }
 
 /* Posts */
-
-.homeposts {
-}
-.home_posts .sale {
-  /* height: 1300px; */
-  /* background-color: blue; */
-}
-.home_posts .rent {
-  /* height: 300px; */
-  /* background-color: red; */
-}
 
 .home_post_container {
   display: flex;

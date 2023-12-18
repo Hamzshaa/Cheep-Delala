@@ -30,17 +30,14 @@ function SignIn() {
         .then((response) => {
           console.log(response.status);
           if (response.status === 200) {
-            //   console.log("this is a success new")
             console.log(response);
             loginStatusHandler(response.data);
             navigate("/");
           } else {
             console.log("this is a work hard news");
-            // Handle other status codes or error conditions
           }
         })
         .catch((error) => {
-          // Handle errors
           console.error(error);
         });
     } else {
@@ -55,13 +52,11 @@ function SignIn() {
     return axios
       .post(`${server}/login`, sendingInput)
       .then((response) => {
-        // console.log(response.data);
-        // console.log(response.status); // Access the status property of the response
-        return response; // Return the response object
+        return response;
       })
       .catch((error) => {
         console.log("Error: ", error);
-        throw error; // Rethrow the error to handle it outside of the function if needed
+        throw error;
       });
   };
 

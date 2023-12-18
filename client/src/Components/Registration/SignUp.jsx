@@ -18,7 +18,6 @@ function SignUp() {
   const onchangeStyle = {
     color: "white",
     backgroundColor: "red",
-    // Add any other desired styles...
   };
 
   function handleChange() {
@@ -42,6 +41,8 @@ function SignUp() {
       confirmation: confirmValue,
       phoneNu: phoneValue,
       location: locationValue,
+      profileImg:
+        "https://static.vecteezy.com/system/resources/previews/014/554/760/original/man-profile-negative-photo-anonymous-silhouette-human-head-businessman-worker-support-illustration-vector.jpg",
     };
     const verified =
       ticked === true &&
@@ -50,8 +51,6 @@ function SignUp() {
       userInfo.email.length > 5 &&
       userInfo.password.length > 7;
     if (verified) {
-      // console.log("now you can send it bro ");
-
       apiCall(userInfo)
         .then((response) => {
           console.log(response.status);
@@ -60,11 +59,9 @@ function SignUp() {
             navigate("/");
           } else {
             console.log("this is a work hard news");
-            // Handle other status codes or error conditions
           }
         })
         .catch((error) => {
-          // Handle errors
           console.error(error);
         });
     } else {
@@ -105,13 +102,13 @@ function SignUp() {
       .post(`${server}/userData`, userInfo)
       .then((response) => {
         console.log("not good end");
-        console.log(response.status); // Access the status property of the response
-        return response; // Return the response object
+        console.log(response.status);
+        return response;
       })
       .catch((error) => {
         console.log("Error: ", error);
         console.log("worse");
-        throw error; // Rethrow the error to handle it outside of the function if needed
+        throw error;
       });
   };
 

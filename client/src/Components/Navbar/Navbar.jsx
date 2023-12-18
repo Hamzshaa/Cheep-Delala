@@ -30,7 +30,7 @@ function Navbar() {
         </Link>
         <Link to="/" className="logo">
           <FaHouseChimney className="logo-img" />
-          Cheep Delala
+          Cheap Delala
         </Link>
 
         <div className="nav-sign-up">

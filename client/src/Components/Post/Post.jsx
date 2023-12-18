@@ -5,7 +5,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClose } from "@fortawesome/free-solid-svg-icons";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
-import { faUpload } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import { LoginStatusContext } from "../../App";
 
@@ -24,6 +23,7 @@ const Posts = () => {
       ...submittedInput,
       uploadedImgs,
       user: loginStatus,
+      time: time(),
     }));
     console.log(uploadedImgs);
   }
@@ -36,6 +36,9 @@ const Posts = () => {
     }));
   }
 
+  function time() {
+    return new Date().toISOString();
+  }
   useEffect(() => {
     const submitForm = async () => {
       try {
@@ -49,8 +52,6 @@ const Posts = () => {
       }
     };
 
-    // if (submitedInfo.uploadedImgs.length > 0) {
-    // }
     submitForm();
   }, [submitedInfo]);
 
@@ -118,10 +119,6 @@ const Posts = () => {
                       <div className="col-sm-3">
                         <div className="docErr">Please upload valid file</div>
                         <div className="fileUpload btn btn-orange">
-                          {/* <span className="upl" id="upload">
-                            <FontAwesomeIcon icon={faUpload} />
-                            Upload Image
-                          </span> */}
                           <input
                             type="file"
                             className="upload-img up"

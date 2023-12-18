@@ -10,23 +10,9 @@ function Profile() {
   const [selectedPhoto, setSelectedPhoto] = useState(null);
   const { loginStatus, loginStatusHandler } = useContext(LoginStatusContext);
 
-  // const handleFileChange = (event) => {
-  //   const file = event.target.files[0];
-  //   setSelectedPhoto(file);
-  //   // console.log(URL.createObjectURL(file));
-  // };
-
-  // function handleUpload(event) {
-  //   if (selectedPhoto) {
-  //     console.log("Selected file:", selectedPhoto);
-  //   }
-  //   event.preventDefault();
-  // }
-
   const handleFileSelect = (file) => {
     setSelectedPhoto(file);
     console.log("Selected file:", file);
-    // Perform any other logic with the selected file
   };
 
   console.log(selectedPhoto);
@@ -36,9 +22,10 @@ function Profile() {
         <div className="profile-photo">
           <img
             src={
-              selectedPhoto
-                ? URL.createObjectURL(selectedPhoto)
-                : "https://static.vecteezy.com/system/resources/previews/014/554/760/original/man-profile-negative-photo-anonymous-silhouette-human-head-businessman-worker-support-illustration-vector.jpg"
+              loginStatus?.profileImg
+              // selectedPhoto
+              //   ? URL.createObjectURL(selectedPhoto)
+              //   : "https://static.vecteezy.com/system/resources/previews/014/554/760/original/man-profile-negative-photo-anonymous-silhouette-human-head-businessman-worker-support-illustration-vector.jpg"
             }
             alt=""
             className="profile-img"

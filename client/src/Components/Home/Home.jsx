@@ -4,8 +4,6 @@ import axios from "axios";
 import PostCard from "./PostCard/PostCard";
 import Banner from "./Banner/Banner";
 
-// const PostContext = createContext();
-
 function Home() {
   const [activeButton, setActiveButton] = useState("sale");
   const [postData, setPostData] = useState([]);
@@ -22,7 +20,6 @@ function Home() {
   async function fetchPosts() {
     try {
       const response = await axios.get("http://localhost:8080/post");
-      // console.log("rerer", response.data);
       setPostData(response.data);
     } catch (error) {
       console.error("Error fetching posts:", error);

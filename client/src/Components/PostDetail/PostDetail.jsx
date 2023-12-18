@@ -20,7 +20,6 @@ import axios from "axios";
 function PostDetail() {
   const [parameterExpanded, setParameterExpanded] = useState(false);
   const [postData, setPostData] = useState({});
-  // const postContext = useContext(PostContext);
   const { id } = useParams();
   console.log(id);
 
@@ -125,7 +124,7 @@ function PostDetail() {
           </div>
         </div>
       </div>
-      <div className="suggestion">
+      {/* <div className="suggestion">
         <h1>You may also like</h1>
         <div className="suggestion-row">
           <PostCard url="https://picsum.photos/300/200" title="House Title" />
@@ -138,7 +137,7 @@ function PostDetail() {
           <PostCard url="https://picsum.photos/300/200" title="House Title" />
           <PostCard url="https://picsum.photos/300/200" title="House Title" />
         </div>
-      </div>
+      </div> */}
     </div>
   );
 }

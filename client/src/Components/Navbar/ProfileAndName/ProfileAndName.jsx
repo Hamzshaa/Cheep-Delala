@@ -15,11 +15,7 @@ function ProfileAndName() {
     <div className="miniprofile">
       <Link to="/profile">
         <div className="miniprofile-img">
-          <img
-            src="https://picsum.photos/100"
-            alt=""
-            // className="miniprofile-img"
-          />
+          <img src={loginStatus?.profileImg} alt="" />
         </div>
       </Link>
       <Link to="/profile">

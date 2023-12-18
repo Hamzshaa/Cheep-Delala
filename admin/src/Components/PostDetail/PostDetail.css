@@ -3,27 +3,20 @@ a {
 }
 .post-detail {
   margin: 50px;
-  /* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5); */
   border: 1px solid #ccc;
 }
 .post-detail-info {
-  /* background-color: red; */
   display: flex;
-  /* width: 80%; */
   margin: 64px;
 }
 .post-detail-imgs {
   width: 60%;
-  /* margin: 1% 0.5%; */
 }
 .post-detail-sideinfo {
-  /* background-color: green; */
-  /* padding-top: 50px; */
   width: 40%;
 }
 img.col-4 {
   padding: 0 1%;
-  /* border-radius: 10%; */
   object-fit: cover;
 }
 img.col {

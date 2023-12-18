@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import axios from "axios";
 import { PostContext } from "../../App";
 import { useContext } from "react";
@@ -13,7 +13,6 @@ function PostedRow(props) {
       .delete(`http://localhost:8080/post/${id}`)
       .then((response) => {
         console.log("Post deleted successfully");
-        // Handle the response or perform any necessary actions
         const filteredObj = Object.fromEntries(
           Object.entries(postedPosts).filter(
             ([key]) => postedPosts[key]._id !== id
@@ -24,7 +23,6 @@ function PostedRow(props) {
       })
       .catch((error) => {
         console.error("Error deleting post:", error);
-        // Handle the error or display an error message
       });
   }
 
@@ -40,22 +38,17 @@ function PostedRow(props) {
       console.error("Error submitting form", error);
     }
     console.log("Approve id: ", id);
-
-    // console.log(`Approving post request with ID: ${id}`);
   };
 
   function handleReject(id) {
-    // window.location.reload();
     handleDelete(id);
     console.log("Reject id: ", id);
   }
 
-  //   <Link to={_.isEqual(loginStatus, {}) ? "signup" : `/postdetail/${id}`}
-
   return (
     <div key={id} className="post-request">
       <div className="poster">
-        <img src={props.img} alt="" />
+        <img src={props?.post?.user?.profileImg} alt="" />
 
         {props.post?.user?.name}
       </div>
@@ -63,7 +56,7 @@ function PostedRow(props) {
         {props.post.title}
       </Link>
       <div className="purpose">{props.post.for}</div>
-      <div className="time">{props.time}</div>
+      <div className="time">{props.post.time}</div>
       <div className="actions">
         <button className="reject" onClick={() => handleReject(id)}>
           Remove

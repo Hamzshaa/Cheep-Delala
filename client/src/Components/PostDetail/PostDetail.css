@@ -2,23 +2,17 @@ a {
   text-decoration: none;
 }
 .post-detail-info {
-  /* background-color: red; */
   display: flex;
-  /* width: 80%; */
   margin: 110px 120px 0 350px;
 }
 .post-detail-imgs {
   width: 50%;
-  /* margin: 1% 0.5%; */
 }
 .post-detail-sideinfo {
-  /* background-color: green; */
-  /* padding-top: 50px; */
   width: 50%;
 }
 img.col-4 {
   padding: 0 1%;
-  /* border-radius: 10%; */
   object-fit: cover;
 }
 img.col {
@@ -94,7 +88,6 @@ img.col {
 /* Suggestion */
 
 .suggestion {
-  /* background-color: red; */
   margin-left: 350px;
   margin-right: 100px;
   margin-top: 100px;

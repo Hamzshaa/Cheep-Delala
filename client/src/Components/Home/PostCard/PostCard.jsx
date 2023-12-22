@@ -11,6 +11,7 @@ const guarage = require("./icons/guarage.png");
 
 function PostCard(props) {
   const id = props?.post?._id;
+  const userId = props?.post?.user?._id;
   const { loginStatus, loginStatusHandler } = useContext(LoginStatusContext);
 
   const currentTime = new Date();
@@ -71,11 +72,14 @@ function PostCard(props) {
               <img src={guarage} alt="" />
               <p className="guarage">1 guarage</p>
             </div>
-            <div className="dataContainerSeparated datafooter">
+            <Link
+              to={`/profiledetail/${userId}`}
+              className="dataContainerSeparated datafooter"
+            >
               <img src={props?.post?.user?.profileImg} alt="" />
               <p className="postername">{props?.post?.user?.name}</p>
-              <p className="timeposted">{timeDifference}. ago</p>
-            </div>
+              <p className="timeposted">2 min. ago</p>
+            </Link>
           </div>
         </div>
       </div>

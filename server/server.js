@@ -30,14 +30,25 @@ const userSchema = new mongoose.Schema({
 });
 const User = mongoose.model("User", userSchema);
 
+// const messageSchema = new mongoose.Schema({
+//   sender: String,
+//   receiver: String,
+//   message: [
+//     {
+//       text: String,
+//       time: String,
+//       direction: String,
+//     },
+//   ],
+// });
 const messageSchema = new mongoose.Schema({
-  sender: String,
-  receiver: String,
+  user1: userSchema,
+  user2: userSchema,
   message: [
     {
       text: String,
       time: String,
-      direction: String,
+      sender: String,
     },
   ],
 });
@@ -169,14 +180,145 @@ app.get("/messages", (req, res) => {
     res.send(messages);
   });
 });
-app.get("/messages/:sender/:receiver", (req, res) => {
-  const sender = req.params.sender;
-  const receiver = req.params.receiver;
-  Message.findOne({ sender: sender, receiver: receiver }).then((messages) => {
-    res.send(messages);
-  });
+app.get("/messages/:user1/:user2", (req, res) => {
+  const user1 = req.params.user1;
+  const user2 = req.params.user2;
+
+  Message.findOne({
+    $or: [
+      { "user1._id": user1, "user2._id": user2 },
+      { "user1._id": user2, "user2._id": user1 },
+    ],
+  })
+    .then((message) => {
+      res.send(message);
+    })
+    .catch((e) => {
+      console.log("Error in get msg route: ", e);
+    });
+
+  // Message.findOne({ sender: sender, receiver: receiver }).then((messages) => {
+  //   res.send(messages);
+  // });
 });
 
+app.post("/messages/:user1/:user2", (req, res) => {
+  // const user1 = req.params.user1;
+  // const user2 = req.params.user2;
+  const user1 = req.body.user1;
+  const user2 = req.body.user2;
+  const newMessage = req.body.message;
+
+  console.log(user1, user2, newMessage);
+
+  const filter = {
+    $or: [
+      { "user1._id": user1, "user2._id": user2 },
+      { "user1._id": user2, "user2._id": user1 },
+    ],
+  };
+  console.log("fileter: ", filter);
+  const update = { $push: { message: newMessage } };
+
+  Message.updateOne(filter, update)
+    .then(() => {
+      res.status(200).send("Message added successfully");
+    })
+    .catch((error) => {
+      console.log("Error updating message:", error);
+      res.status(500).send("Error updating message");
+    });
+
+  // Message.findOne({
+  //   $or: [
+  //     { sender: sender, receiver: receiver },
+  //     { sender: receiver, receiver: sender },
+  //   ],
+  // })
+  //   .then((message) => {
+  //     if (!message){
+
+  //       console.log("Message not found");
+  //     }
+  //   })
+  //   .catch((e) => {
+  //     console.log("Message Error: ", e);
+  //   });
+  // Message.findOne({ sender: sender, receiver: receiver }).then((messages) => {
+  //   res.send(messages);
+  // });
+});
+
+app.post("/messageslist/:sender/:receiver", (req, res) => {
+  const newChat = req.body.chat;
+
+  // const sender = req.params.sender;
+  // const receiver = req.params.receiver;
+  // const newMessage = req.body.message;
+  // console.log(sender, receiver, newMessage);
+  // const filter = { sender: sender, receiver: receiver };
+  // const update = { $push: { message: newMessage } };
+
+  // Message.updateOne(filter, update)
+  //   .then(() => {
+  //     res.send("Message added successfully");
+  //   })
+  //   .catch((error) => {
+  //     console.log("Error updating message:", error);
+  //     res.status(500).send("Error updating message");
+  //   });
+  // console.log(newChat);
+  const user1 = newChat.user1;
+  const user2 = newChat.user2;
+
+  Message.findOne({
+    $or: [
+      { "user1._id": user1._id, "user2._id": user2._id },
+      { "user1._id": user2._id, "user2._id": user1._id },
+    ],
+  })
+    .then((message) => {
+      if (!message) {
+        const newChatList = new Message(newChat);
+
+        newChatList
+          .save()
+          .then(() => {
+            console.log("new chat saved to db successfully");
+            res.status(200).json({ message: "Data received successfully" });
+          })
+          .catch((error) => {
+            console.log("Error saving new chat: ", error);
+            res
+              .status(500)
+              .json({ error: "An error occurred while saving the user" });
+          });
+
+        console.log("Message not found");
+      } else {
+        console.log("Message found");
+      }
+    })
+    .catch((e) => {
+      console.log("Message Error: ", e);
+    });
+});
+
+app.get("/messagelists/:userId", (req, res) => {
+  const userId = req.params.userId;
+  console.log("userId", userId);
+  Message.find({
+    $or: [{ "user1._id": userId }, { "user2._id": userId }],
+  })
+    .then((lists) => {
+      console.log("lists: ", lists);
+      res.send(lists);
+      // res.status(200).json(lists);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
 app.post("/userData", (req, res) => {
   const userInfo = req.body;
   console.log(userInfo);
@@ -193,6 +335,45 @@ app.post("/userData", (req, res) => {
       res
         .status(500)
         .json({ error: "An error occurred while saving the user" });
+    });
+});
+
+app.get("/user", (req, res) => {
+  User.find().then((users) => {
+    res.send(users);
+  });
+});
+
+app.delete("/user/:id", (req, res) => {
+  const postId = req.params.id;
+  User.findOneAndDelete({ _id: postId })
+    .then((deletedPost) => {
+      console.log(deletedPost);
+      if (!deletedPost) {
+        console.log("Post not found");
+        return res.status(404).json({ message: "Post not found" });
+      }
+
+      res.status(200).json({ message: "Post deleted successfully" });
+      console.log("Post deleted successfully");
+    })
+    .catch((error) => {
+      console.error("Error deleting post:", error);
+      res.status(500).json({ message: "Error deleting post" });
+    });
+});
+
+app.get("/profiledetail/:userId", (req, res) => {
+  const userId = req.params.userId;
+  User.findOne({ _id: userId })
+    .then((user) => {
+      res.status(200).json(user);
+    })
+    .catch((error) => {
+      console.error("Error finding user:", error);
+      res
+        .status(500)
+        .json({ error: "An error occurred while finding the user" });
     });
 });
 

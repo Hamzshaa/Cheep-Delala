@@ -7,11 +7,14 @@ import { SidebarData } from "./SidebarData";
 import "./Navbar.css";
 import ProfileAndName from "./ProfileAndName/ProfileAndName";
 import { LoginStatusContext } from "../../App";
+import { SidebarStatusContext } from "../../App";
 
 function Navbar() {
   const [sidebar, setSidebar] = useState(false);
 
   const { loginStatus, loginStatusHandler } = useContext(LoginStatusContext);
+  const { isSidebarExpanded, setIsSidebarExpanded } =
+    useContext(SidebarStatusContext);
   console.log(_.isEqual(loginStatus, {}));
 
   function handleSignOut() {
@@ -20,6 +23,7 @@ function Navbar() {
 
   function showSidebar() {
     setSidebar(!sidebar);
+    setIsSidebarExpanded(!isSidebarExpanded);
   }
 
   return (

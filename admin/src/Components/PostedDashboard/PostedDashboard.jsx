@@ -6,7 +6,6 @@ import { useParams } from "react-router-dom";
 function PostedDashboard() {
   const { type } = useParams();
   const { postedPosts } = useContext(PostContext);
-  console.log(type);
 
   const posts = {};
   const handleReject = (id) => {

@@ -1,38 +1,120 @@
-import React, { useState } from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
 import "./Message.css";
 import SendIcon from "@mui/icons-material/Send";
 import MsgCard from "./MsgCard/MsgCard";
 import MessageList from "./MessageList/MessageList";
+import { SidebarStatusContext } from "../../App";
+import axios from "axios";
+import { LoginStatusContext } from "../../App";
+import { MessageListContext } from "../../App";
+
+// export const MessageListContext = createContext();
 
 function Messages() {
   const [msg, setMsg] = useState("");
   const [msgs, setMsgs] = useState([]);
-  // const [messages, setMessages] = useState([]);
+  const [sender, setSender] = useState({});
   const [messages, setMessages] = useState({});
   const [selectedMsg, setSelectedMsg] = useState("");
+  // const [msgLists, setMsgLists] = useState([]);
 
-  const temporaryUsers = [
-    {
-      name: "Abebe Abamecha",
-      password: "",
-      phoneNumber: "",
-      email: "",
-      additionalInfo: {
-        pictureUrl: "https://picsum.photos/200",
-        bio: "",
-        username: "abeabamecha",
-        location: "",
-      },
-    },
-  ];
+  console.log(selectedMsg);
 
-  function handleClick(event) {
-    if (msg !== "") {
-      setMsgs((prevMsg) => {
-        return [...prevMsg, msg];
+  const { msgLists, setMsgLists } = useContext(MessageListContext);
+  const { isSidebarExpanded } = useContext(SidebarStatusContext);
+  const { loginStatus } = useContext(LoginStatusContext);
+
+  useEffect(() => {
+    const server = "http://localhost:8080";
+    const id = loginStatus?._id;
+
+    axios
+      .get(`${server}/messagelists/${id}`)
+      .then((response) => {
+        console.log(response.data);
+        setMsgLists(response.data);
+        // setMsgLists((prevLists) => {
+        //   return [...prevLists, response.data];
+        // });
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+      });
+  }, [loginStatus]);
+
+  useEffect(() => {
+    const sender = "Abebe Abamecha";
+    const receiver = "Abdi Ahmed";
+    const user1 = selectedMsg;
+    const user2 = loginStatus?._id;
+    const server = "http://localhost:8080";
+    axios
+      .get(`${server}/messages/${user1}/${user2}`)
+      .then((response) => {
+        setMessages(response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
       });
 
-      console.log(msgs);
+    // const server = "http://localhost:8080";
+    // axios
+    //   .get(`${server}/messages`)
+    //   .then((response) => {
+    //     setMsgLists(response.data);
+    //   })
+    //   .catch((error) => {
+    //     console.error("Error fetching data:", error);
+    //   });
+  }, [msgLists, messages]);
+
+  function handleClick(event) {
+    // const sender = "Abebe Abamecha";
+    // const receiver = "Abdi Ahmed";
+    const user1 = selectedMsg;
+    const user2 = loginStatus?._id;
+
+    let today = new Date();
+    let hour = today.getHours();
+    let minute = today.getMinutes();
+    if (hour < 10) {
+      hour = "0" + hour;
+    }
+    if (minute < 10) {
+      minute = "0" + minute;
+    }
+    let time = hour + ":" + minute;
+
+    if (msg !== "") {
+      axios
+        .post(`http://localhost:8080/messages/${user1}/${user2}`, {
+          user1: user1,
+          user2: user2,
+          message: {
+            text: msg,
+            time: time,
+            sender: selectedMsg,
+          },
+        })
+        .then((response) => {
+          console.log(response.data);
+        })
+        .catch((error) => {
+          console.error("Error sending message:", error);
+        });
+
+      setMsgs((prevMsg) => {
+        return [
+          ...prevMsg,
+          {
+            text: msg,
+            time: time,
+            sender: selectedMsg,
+          },
+        ];
+      });
+
+      // console.log(msgs);
     }
     setMsg("");
     event.preventDefault();
@@ -41,86 +123,61 @@ function Messages() {
   function handleChange(event) {
     setMsg(event.target.value);
   }
-  function handleMsgSelect(name, message) {
-    setSelectedMsg(name);
-    setMessages(message);
-    console.log("message selected", message);
-  }
+  function handleMsgSelect(user1, user2) {
+    console.log(user1, user2);
+    axios
+      .get(`http://localhost:8080/messages/${user1}/${user2}`)
+      .then((response) => {
+        console.log(response.data?.message);
 
-  // const element = document.getElementById("msg-panel");
-  // element.scrollTop = element.scrollHeight;
-  console.log("Messages.jsx", messages);
+        if (loginStatus?._id === response.data?.user1?._id) {
+          setSender(response.data?.user2);
+          setSelectedMsg(response.data?.user2);
+        } else {
+          setSender(response.data?.user1);
+          setSelectedMsg(response.data?.user1);
+        }
+
+        setMsgs(response.data?.message);
+        // setSelectedMsg(response.data?._id);
+        console.log("Msg selected successfully");
+      })
+      .catch((e) => {
+        console.log("handleMsgSelect Error: ", e);
+      });
+  }
+  // console.log(msgLists);
+  // console.log(msgs);
+
   return (
     <>
-      <div className="message-page">
+      <div
+        className={`message-page ${
+          isSidebarExpanded ? "msg-expanded" : "msg-collapsed"
+        }`}
+      >
         <div className="message-list">
-          <MessageList
-            name="Hamza Jhad"
-            message="Hamza Jhad, lorem ipsum ipsum lorem ipsum"
-            imgUrl="https://picsum.photos/200"
-            onSelect={handleMsgSelect}
-            user={temporaryUsers[0]}
-          />
-          <MessageList
-            name="Abdi Ahmed"
-            message="Abdi Ahmed, lorem ipsum ipsum lorem ipsum"
-            imgUrl="https://picsum.photos/300"
-            onSelect={handleMsgSelect}
-          />
-          <MessageList
-            name="Hawas Muhaba"
-            message="Ante Muhaba, lorem ipsum ipsum lorem ipsum"
-            imgUrl="https://picsum.photos/400"
-            onSelect={handleMsgSelect}
-          />
-          <MessageList
-            name="Baslii Man"
-            message="Lemn gn lorem ipsum ipsum lorem ipsum"
-            imgUrl="https://picsum.photos/100"
-            onSelect={handleMsgSelect}
-          />
-          <MessageList
-            name="Hamza Jhad"
-            message="Hamza Jhad, lorem ipsum ipsum lorem ipsum"
-            imgUrl="https://picsum.photos/200"
-            onSelect={handleMsgSelect}
-          />
-          <MessageList
-            name="Hamza Jhad"
-            message="Hamza Jhad, lorem ipsum ipsum lorem ipsum"
-            imgUrl="https://picsum.photos/200"
-            onSelect={handleMsgSelect}
-          />
-          <MessageList
-            name="Hamza Jhad"
-            message="Hamza Jhad, lorem ipsum ipsum lorem ipsum"
-            imgUrl="https://picsum.photos/200"
-            onSelect={handleMsgSelect}
-          />
-          <MessageList
-            name="Hamza Jhad"
-            message="Hamza Jhad, lorem ipsum ipsum lorem ipsum"
-            imgUrl="https://picsum.photos/200"
-            onSelect={handleMsgSelect}
-          />
-          <MessageList
-            name="Hamza Jhad"
-            message="Hamza Jhad, lorem ipsum ipsum lorem ipsum"
-            imgUrl="https://picsum.photos/200"
-            onSelect={handleMsgSelect}
-          />
-          <MessageList
-            name="Hamza Jhad"
-            message="Hamza Jhad, lorem ipsum ipsum lorem ipsum"
-            imgUrl="https://picsum.photos/200"
-            onSelect={handleMsgSelect}
-          />
-          <MessageList
-            name="Hamza Jhad"
-            message="Hamza Jhad, lorem ipsum ipsum lorem ipsum"
-            imgUrl="https://picsum.photos/200"
-            onSelect={handleMsgSelect}
-          />
+          {loginStatus &&
+            msgLists?.map((list) => {
+              if (list?.user1?._id !== list?.user2?._id)
+                return (
+                  <MessageList
+                    name={
+                      loginStatus._id === list?.user1?._id
+                        ? list?.user2?.name
+                        : list?.user1?.name
+                    }
+                    imgUrl={
+                      loginStatus._id === list?.user1?._id
+                        ? list?.user2?.profileImg
+                        : list?.user1?.profileImg
+                    }
+                    user1={list?.user1}
+                    user2={list?.user2}
+                    onSelect={handleMsgSelect}
+                  />
+                );
+            })}
         </div>
         {selectedMsg === "" ? (
           <div className="msg-unselected">
@@ -131,24 +188,21 @@ function Messages() {
         ) : (
           <div className="message-page-container">
             <div className="message-profile-name">
-              <h1 className="profile-name">Abdi Ahmed</h1>
-              <p className="profile-username">
+              <h1>{sender?.name}</h1>
+              {/* <p>
                 abdishaa<span>@cheepDelala</span>
-              </p>
+              </p> */}
             </div>
             <div className="messages">
               <div className="message-chat-panel">
                 <div className="msg">
-                  {/* <MsgCard message="Hello Abdi Ahmed, lorem ipsum ipusm"isRight={true} />
-                  <MsgCard message="Hello Hawas Muhaba, Lorem ipsum ipsum ipusm lorem ipsum?"isRight={false} />
-                  <MsgCard message="yeah, you are right. lorem ipsum ipsum lorem ipsum"isRight={true} /> */}
-                  {messages.message?.map((message, index) => {
+                  {msgs?.map((message, index) => {
                     console.log(message.text);
                     return (
                       <MsgCard
-                        message={message.text}
-                        isRight={message.direction === "sent"}
-                        time={message.time}
+                        message={message?.text}
+                        isRight={message?.sender !== loginStatus?._id}
+                        time={message?.time}
                       />
                     );
                   })}
@@ -178,10 +232,3 @@ function Messages() {
 }
 
 export default Messages;
-
-{
-  /* <h1 className="profile-name">Hawas Muhaba</h1>
-      <p className="profile-username">
-        Hawasishaa<span>@cheepDelala</span>
-      </p> */
-}

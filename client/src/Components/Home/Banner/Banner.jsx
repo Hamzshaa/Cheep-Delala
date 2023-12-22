@@ -14,10 +14,10 @@ function Banner() {
     >
       <div className="banner_contents">
         <div className="banner_title">Cheap Delala</div>
+        <h1 className="banner-h1">Find You Dream Home!!</h1>
         <h1 className="banner_description">
           Find Your Perfect Home: Discover a vast selection of houses for sale
-          and rent on our website. Explore listings, connect with trusted
-          agents, and unlock the door to your dream home today.
+          and rent on our website.
         </h1>
       </div>
       <div className="banner_fadeBottom" />

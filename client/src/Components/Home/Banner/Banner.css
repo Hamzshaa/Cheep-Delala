@@ -9,7 +9,10 @@
   padding-top: 350px;
   height: 190px;
 }
-.banner_title {
+.banner-h1 {
+  color: #d2ebe0;
+}
+.banner_contents .banner_title {
   font-size: 4rem;
   font-weight: 800;
   color: rgba(0, 0, 0, 0.3);

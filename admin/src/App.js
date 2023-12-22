@@ -11,6 +11,7 @@ import PostDetail from "./Components/PostDetail/PostDetail";
 import Navbar from "./Components/Navbar/Navbar";
 import PostedDashboard from "./Components/PostedDashboard/PostedDashboard";
 import PostedPostDetail from "./Components/PostedDashboard/PostDetail";
+import RegisteredDashboard from "./Components/RegisteredDashboard/RegisteredDashboard";
 
 export const PostContext = createContext();
 
@@ -27,9 +28,6 @@ function App() {
 
         setWaitingPosts(responses[0].data);
         setPostedPosts(responses[1].data);
-
-        console.log("Data 1:", response1.data);
-        console.log("Data 2:", response2.data);
       })
       .catch((error) => {
         console.error("Error fetching data:", error);
@@ -48,6 +46,7 @@ function App() {
           <Route path="/postedpostdetail/:id" element={<PostedPostDetail />} />
 
           <Route path="/posted/:type" element={<PostedDashboard />} />
+          <Route path="/users" element={<RegisteredDashboard />} />
         </Routes>
       </Router>
     </PostContext.Provider>

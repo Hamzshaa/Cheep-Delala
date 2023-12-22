@@ -56,7 +56,7 @@ function SignUp() {
           console.log(response.status);
           if (response.status === 200) {
             console.log("this is a success new");
-            navigate("/");
+            navigate("/signin");
           } else {
             console.log("this is a work hard news");
           }

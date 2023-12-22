@@ -18,13 +18,13 @@ function MsgCard(props) {
         <div className="msg-card right">
           <p>
             {props.message}
-            <span className="time">{time}</span>
+            <span className="time">{props.time}</span>
           </p>
-          <img alt="" src="https://picsum.photos/200" />
+          {/* <img alt="" src="https://picsum.photos/200" /> */}
         </div>
       ) : (
         <div className="msg-card left">
-          <img alt="" src="https://picsum.photos/200" />
+          {/* <img alt="" src="https://picsum.photos/200" /> */}
           <p>
             {props.message}
             <span className="time">{props.time}</span>

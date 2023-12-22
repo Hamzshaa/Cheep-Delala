@@ -17,35 +17,70 @@ import SignUp from "./Components/Registration/SignUp";
 import SignIn from "./Components/Registration/SignIn";
 import PostDetail from "./Components/PostDetail/PostDetail";
 import FourOFour from "./Components/FourOFour";
-import React, { useState } from "react";
+import React, { createContext, useEffect, useState } from "react";
+import ProfileDetail from "./Components/Post/ProfileDetail";
 
-export const LoginStatusContext = React.createContext();
-
+export const LoginStatusContext = createContext();
+export const SidebarStatusContext = createContext();
+export const MessageListContext = createContext();
 function App() {
   const [loginStatus, setLoginStatus] = useState({});
+  const [isSidebarExpanded, setIsSidebarExpanded] = useState(false);
+  const [msgLists, setMsgLists] = useState([]);
 
   function loginStatusHandler(user) {
     setLoginStatus(user);
   }
 
+  // useEffect(() => {
+  //   const server = "http://localhost:8080";
+  //   const id = loginStatus?.id;
+  //   axios
+  //     .get(`${server}/messagelists/${id}`)
+  //     .then((response) => {
+  //       console.log(response.data);
+  //       setMsgLists(response.data);
+  //       // setMsgLists((prevLists) => {
+  //       //   return [...prevLists, response.data];
+  //       // });
+  //     })
+  //     .catch((error) => {
+  //       console.error("Error fetching data:", error);
+  //     });
+  // }, [loginStatus]);
+
   return (
     <LoginStatusContext.Provider value={{ loginStatus, loginStatusHandler }}>
-      <Router>
-        <Navbar />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/messages" element={<Messages />} />
-          <Route path="/saveditems" element={<SavedItems />} />
-          <Route path="/posts" element={<Post />} />
-          <Route path="/settings" element={<Settings />} />
-          <Route path="/help" element={<HelpAndSupports />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/signup" element={<SignUp />} />
-          <Route path="/signin" element={<SignIn />} />
-          <Route path="/postdetail/:id" element={<PostDetail />} />
-          <Route path="/*" element={<FourOFour />} />
-        </Routes>
-      </Router>
+      <SidebarStatusContext.Provider
+        value={{ isSidebarExpanded, setIsSidebarExpanded }}
+      >
+        <MessageListContext.Provider value={{ msgLists, setMsgLists }}>
+          <Router>
+            <Navbar />
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/messages" element={<Messages />} />
+              <Route path="/saveditems" element={<SavedItems />} />
+              <Route path="/posts" element={<Post />} />
+              <Route path="/settings" element={<Settings />} />
+              <Route path="/help" element={<HelpAndSupports />} />
+              <Route path="/profile" element={<Profile />} />
+              <Route path="/signup" element={<SignUp />} />
+              <Route path="/signin" element={<SignIn />} />
+              <Route path="/postdetail/:id" element={<PostDetail />} />
+              <Route
+                path="/profiledetail/:userId"
+                element={<ProfileDetail />}
+              />
+              <Route
+                path="/messages/:sender/:reciever"
+                element={<Messages />}
+              />
+              <Route path="/*" element={<FourOFour />} />
+            </Routes>
+          </Router>
+        </MessageListContext.Provider>
+      </SidebarStatusContext.Provider>
     </LoginStatusContext.Provider>
   );
 }

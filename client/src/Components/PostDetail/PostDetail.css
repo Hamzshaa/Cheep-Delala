@@ -1,6 +1,10 @@
 a {
   text-decoration: none;
 }
+html {
+  margin: 0;
+  padding: 0;
+}
 .post-detail-info {
   display: flex;
   margin: 110px 120px 0 350px;

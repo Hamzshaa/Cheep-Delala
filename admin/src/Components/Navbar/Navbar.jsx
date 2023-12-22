@@ -24,6 +24,11 @@ function Navbar() {
                 Rent <sub>(posted)</sub>
               </Link>
             </li>
+            <li className="nav-item">
+              <Link className="nav-link" to="/users">
+                Registerd Users
+              </Link>
+            </li>
           </ul>
         </div>
       </nav>

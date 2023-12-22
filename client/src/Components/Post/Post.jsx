@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import "./Post.css";
-// import houseImg from "./Images/House.png";
+import houseImg from "./House.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClose } from "@fortawesome/free-solid-svg-icons";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
@@ -98,7 +98,7 @@ const Posts = () => {
       <div className="backgroundPost4"></div>
       <div className="backgroundPost5"></div>
       <div className="backgroundPost">
-        {/* <img src={houseImg} alt="houseimage" /> */}
+        <img src={houseImg} alt="houseimage" />
       </div>
 
       <div className="container">

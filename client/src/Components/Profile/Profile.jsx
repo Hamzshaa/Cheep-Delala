@@ -20,22 +20,13 @@ function Profile() {
     <div className="profile">
       <div className="profile-container">
         <div className="profile-photo">
-          <img
-            src={
-              loginStatus?.profileImg
-              // selectedPhoto
-              //   ? URL.createObjectURL(selectedPhoto)
-              //   : "https://static.vecteezy.com/system/resources/previews/014/554/760/original/man-profile-negative-photo-anonymous-silhouette-human-head-businessman-worker-support-illustration-vector.jpg"
-            }
-            alt=""
-            className="profile-img"
-          />
+          <img src={loginStatus?.profileImg} alt="" className="profile-img" />
           <PhotoUploader onFileSelect={handleFileSelect} />
         </div>
         <h1 className="profile-name">{loginStatus?.name}</h1>
-        <p className="profile-username">
+        {/* <p className="profile-username">
           Hawasishaa<span>@cheepDelala</span>
-        </p>
+        </p> */}
         <div className="profile-statuses">
           <ProfileStatus />
         </div>

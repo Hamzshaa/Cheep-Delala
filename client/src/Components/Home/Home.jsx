@@ -3,6 +3,7 @@ import "./Home.css";
 import axios from "axios";
 import PostCard from "./PostCard/PostCard";
 import Banner from "./Banner/Banner";
+import Loader from "../Loader/Loader";
 
 function Home() {
   const [activeButton, setActiveButton] = useState("sale");
@@ -15,7 +16,7 @@ function Home() {
 
   useEffect(() => {
     fetchPosts();
-  }, []);
+  }, [postData]);
 
   async function fetchPosts() {
     try {
@@ -25,7 +26,7 @@ function Home() {
       console.error("Error fetching posts:", error);
     }
   }
-  console.log(postData);
+  // console.log(postData);
 
   return (
     <>
@@ -53,26 +54,30 @@ function Home() {
             for rent
           </div>
         </div>
-        <div className="home_posts">
-          {activeButton === "sale" && (
-            <div className="sale">
-              <div className="home_post_container">
-                {postData?.map((post) => {
-                  if (post.for === "sale") return <PostCard post={post} />;
-                })}
+        {postData ? (
+          <div className="home_posts">
+            {activeButton === "sale" && (
+              <div className="sale">
+                <div className="home_post_container">
+                  {postData?.map((post) => {
+                    if (post.for === "sale") return <PostCard post={post} />;
+                  })}
+                </div>
               </div>
-            </div>
-          )}
-          {activeButton === "rent" && (
-            <div className="rent">
-              <div className="home_post_container">
-                {postData?.map((post) => {
-                  if (post.for === "rent") return <PostCard post={post} />;
-                })}
+            )}
+            {activeButton === "rent" && (
+              <div className="rent">
+                <div className="home_post_container">
+                  {postData?.map((post) => {
+                    if (post.for === "rent") return <PostCard post={post} />;
+                  })}
+                </div>
               </div>
-            </div>
-          )}
-        </div>
+            )}
+          </div>
+        ) : (
+          <Loader />
+        )}
       </div>
     </>
   );

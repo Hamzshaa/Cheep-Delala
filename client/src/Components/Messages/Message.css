@@ -24,7 +24,7 @@
   /* background-image: url("https://www.transparenttextures.com/patterns/cutcube.png"); */
 }
 .message-chat-panel {
-  height: 86%;
+  height: 81%;
   overflow-y: scroll;
   padding-top: 20px;
 }

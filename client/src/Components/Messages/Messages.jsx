@@ -7,44 +7,45 @@ import { SidebarStatusContext } from "../../App";
 import axios from "axios";
 import { LoginStatusContext } from "../../App";
 import { MessageListContext } from "../../App";
-
-// export const MessageListContext = createContext();
+import { useParams } from "react-router-dom";
 
 function Messages() {
+  const { receiver } = useParams();
   const [msg, setMsg] = useState("");
   const [msgs, setMsgs] = useState([]);
   const [sender, setSender] = useState({});
   const [messages, setMessages] = useState({});
   const [selectedMsg, setSelectedMsg] = useState("");
-  // const [msgLists, setMsgLists] = useState([]);
-
-  console.log(selectedMsg);
 
   const { msgLists, setMsgLists } = useContext(MessageListContext);
   const { isSidebarExpanded } = useContext(SidebarStatusContext);
   const { loginStatus } = useContext(LoginStatusContext);
 
+  if (receiver) {
+    if (selectedMsg == "") {
+      handleMsgSelect(loginStatus._id, receiver);
+    }
+  }
+
   useEffect(() => {
     const server = "http://localhost:8080";
     const id = loginStatus?._id;
 
-    axios
-      .get(`${server}/messagelists/${id}`)
-      .then((response) => {
-        console.log(response.data);
-        setMsgLists(response.data);
-        // setMsgLists((prevLists) => {
-        //   return [...prevLists, response.data];
-        // });
-      })
-      .catch((error) => {
-        console.error("Error fetching data:", error);
-      });
-  }, [loginStatus]);
+    try {
+      axios
+        .get(`${server}/messagelists/${id}`)
+        .then((response) => {
+          setMsgLists(response.data);
+        })
+        .catch((error) => {
+          console.error("Error fetching data:", error);
+        });
+    } catch (e) {
+      console.log(e);
+    }
+  }, [loginStatus, msgLists]);
 
   useEffect(() => {
-    const sender = "Abebe Abamecha";
-    const receiver = "Abdi Ahmed";
     const user1 = selectedMsg;
     const user2 = loginStatus?._id;
     const server = "http://localhost:8080";
@@ -56,21 +57,9 @@ function Messages() {
       .catch((error) => {
         console.error("Error fetching data:", error);
       });
-
-    // const server = "http://localhost:8080";
-    // axios
-    //   .get(`${server}/messages`)
-    //   .then((response) => {
-    //     setMsgLists(response.data);
-    //   })
-    //   .catch((error) => {
-    //     console.error("Error fetching data:", error);
-    //   });
   }, [msgLists, messages]);
 
   function handleClick(event) {
-    // const sender = "Abebe Abamecha";
-    // const receiver = "Abdi Ahmed";
     const user1 = selectedMsg;
     const user2 = loginStatus?._id;
 
@@ -97,7 +86,7 @@ function Messages() {
           },
         })
         .then((response) => {
-          console.log(response.data);
+          console.log("Message is successfully stored");
         })
         .catch((error) => {
           console.error("Error sending message:", error);
@@ -113,8 +102,6 @@ function Messages() {
           },
         ];
       });
-
-      // console.log(msgs);
     }
     setMsg("");
     event.preventDefault();
@@ -124,30 +111,24 @@ function Messages() {
     setMsg(event.target.value);
   }
   function handleMsgSelect(user1, user2) {
-    console.log(user1, user2);
     axios
       .get(`http://localhost:8080/messages/${user1}/${user2}`)
       .then((response) => {
-        console.log(response.data?.message);
-
         if (loginStatus?._id === response.data?.user1?._id) {
           setSender(response.data?.user2);
-          setSelectedMsg(response.data?.user2);
+          setSelectedMsg(user2);
         } else {
           setSender(response.data?.user1);
-          setSelectedMsg(response.data?.user1);
+          setSelectedMsg(user1);
         }
 
         setMsgs(response.data?.message);
-        // setSelectedMsg(response.data?._id);
         console.log("Msg selected successfully");
       })
       .catch((e) => {
         console.log("handleMsgSelect Error: ", e);
       });
   }
-  // console.log(msgLists);
-  // console.log(msgs);
 
   return (
     <>
@@ -214,7 +195,6 @@ function Messages() {
                     id="msg-panel"
                     placeholder="Type something..."
                     value={msg}
-                    // row="1"
                     onChange={handleChange}
                   ></textarea>
                   <button type="submit" onClick={handleClick}>

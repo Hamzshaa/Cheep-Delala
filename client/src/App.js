@@ -32,23 +32,6 @@ function App() {
     setLoginStatus(user);
   }
 
-  // useEffect(() => {
-  //   const server = "http://localhost:8080";
-  //   const id = loginStatus?.id;
-  //   axios
-  //     .get(`${server}/messagelists/${id}`)
-  //     .then((response) => {
-  //       console.log(response.data);
-  //       setMsgLists(response.data);
-  //       // setMsgLists((prevLists) => {
-  //       //   return [...prevLists, response.data];
-  //       // });
-  //     })
-  //     .catch((error) => {
-  //       console.error("Error fetching data:", error);
-  //     });
-  // }, [loginStatus]);
-
   return (
     <LoginStatusContext.Provider value={{ loginStatus, loginStatusHandler }}>
       <SidebarStatusContext.Provider
@@ -73,7 +56,7 @@ function App() {
                 element={<ProfileDetail />}
               />
               <Route
-                path="/messages/:sender/:reciever"
+                path="/messages/:sender/:receiver"
                 element={<Messages />}
               />
               <Route path="/*" element={<FourOFour />} />

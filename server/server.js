@@ -30,42 +30,37 @@ const userSchema = new mongoose.Schema({
 });
 const User = mongoose.model("User", userSchema);
 
-// const messageSchema = new mongoose.Schema({
-//   sender: String,
-//   receiver: String,
-//   message: [
-//     {
-//       text: String,
-//       time: String,
-//       direction: String,
-//     },
-//   ],
-// });
-const messageSchema = new mongoose.Schema({
-  user1: userSchema,
-  user2: userSchema,
-  message: [
-    {
-      text: String,
-      time: String,
-      sender: String,
-    },
-  ],
-});
+const messageSchema = new mongoose.Schema(
+  {
+    user1: userSchema,
+    user2: userSchema,
+    message: [
+      {
+        text: String,
+        time: String,
+        sender: String,
+      },
+    ],
+  },
+  { timestamps: true }
+);
 const Message = mongoose.model("Message", messageSchema);
 
-const postSchema = new mongoose.Schema({
-  user: userSchema,
-  title: String,
-  for: String,
-  bedrooms: String,
-  area: String,
-  location: String,
-  description: String,
-  price: String,
-  time: String,
-  uploadedImgs: [String],
-});
+const postSchema = new mongoose.Schema(
+  {
+    user: userSchema,
+    title: String,
+    for: String,
+    bedrooms: String,
+    area: String,
+    location: String,
+    description: String,
+    price: String,
+    time: String,
+    uploadedImgs: [String],
+  },
+  { timestamps: true }
+);
 
 const ApprovedPost = mongoose.model("ApprovedPost", postSchema);
 const Post = mongoose.model("Post", postSchema);
@@ -131,8 +126,8 @@ app.post("/post", (req, res) => {
   res.status(200).json({ message: "Form submitted successfully" });
 });
 
-app.get("/post", (req, res) => {
-  ApprovedPost.find({ title: { $exists: true } }).then((posts) => {
+app.get("/post", async (req, res) => {
+  await ApprovedPost.find({ title: { $exists: true } }).then((posts) => {
     res.send(posts);
   });
 });
@@ -161,16 +156,16 @@ app.get("/posts", (req, res) => {
     res.send(posts);
   });
 });
-app.get("/postdetail/:id", (req, res) => {
+app.get("/postdetail/:id", async (req, res) => {
   const postId = req.params.id;
-  ApprovedPost.findOne({ _id: postId }).then((post) => {
+  await ApprovedPost.findOne({ _id: postId }).then((post) => {
     res.send(post);
   });
 });
 
-app.get("/adminpostdetail/:id", (req, res) => {
+app.get("/adminpostdetail/:id", async (req, res) => {
   const postId = req.params.id;
-  Post.findOne({ _id: postId }).then((post) => {
+  await Post.findOne({ _id: postId }).then((post) => {
     res.send(post);
   });
 });
@@ -180,31 +175,38 @@ app.get("/messages", (req, res) => {
     res.send(messages);
   });
 });
-app.get("/messages/:user1/:user2", (req, res) => {
-  const user1 = req.params.user1;
-  const user2 = req.params.user2;
 
-  Message.findOne({
-    $or: [
-      { "user1._id": user1, "user2._id": user2 },
-      { "user1._id": user2, "user2._id": user1 },
-    ],
-  })
-    .then((message) => {
-      res.send(message);
+app.get("/messages/:user1/:user2", async (req, res) => {
+  const userOneString = req.params.user1;
+  const userTwoString = req.params.user2;
+
+  try {
+    if (
+      !mongoose.Types.ObjectId.isValid(userOneString) ||
+      !mongoose.Types.ObjectId.isValid(userTwoString)
+    ) {
+      console.log("<<<|| Invalid ObjectIds provided ||>>>");
+    }
+    const user1Id = await new mongoose.Types.ObjectId(userOneString);
+    const user2Id = await new mongoose.Types.ObjectId(userTwoString);
+    await Message.findOne({
+      $or: [
+        { "user1._id": user1Id, "user2._id": user2Id },
+        { "user1._id": user2Id, "user2._id": user1Id },
+      ],
     })
-    .catch((e) => {
-      console.log("Error in get msg route: ", e);
-    });
-
-  // Message.findOne({ sender: sender, receiver: receiver }).then((messages) => {
-  //   res.send(messages);
-  // });
+      .then((message) => {
+        res.send(message);
+      })
+      .catch((e) => {
+        console.log("Error in get msg route: ", e);
+      });
+  } catch (error) {
+    console.error("Invalid ObjectIds:", error);
+  }
 });
 
 app.post("/messages/:user1/:user2", (req, res) => {
-  // const user1 = req.params.user1;
-  // const user2 = req.params.user2;
   const user1 = req.body.user1;
   const user2 = req.body.user2;
   const newMessage = req.body.message;
@@ -228,46 +230,11 @@ app.post("/messages/:user1/:user2", (req, res) => {
       console.log("Error updating message:", error);
       res.status(500).send("Error updating message");
     });
-
-  // Message.findOne({
-  //   $or: [
-  //     { sender: sender, receiver: receiver },
-  //     { sender: receiver, receiver: sender },
-  //   ],
-  // })
-  //   .then((message) => {
-  //     if (!message){
-
-  //       console.log("Message not found");
-  //     }
-  //   })
-  //   .catch((e) => {
-  //     console.log("Message Error: ", e);
-  //   });
-  // Message.findOne({ sender: sender, receiver: receiver }).then((messages) => {
-  //   res.send(messages);
-  // });
 });
 
 app.post("/messageslist/:sender/:receiver", (req, res) => {
   const newChat = req.body.chat;
 
-  // const sender = req.params.sender;
-  // const receiver = req.params.receiver;
-  // const newMessage = req.body.message;
-  // console.log(sender, receiver, newMessage);
-  // const filter = { sender: sender, receiver: receiver };
-  // const update = { $push: { message: newMessage } };
-
-  // Message.updateOne(filter, update)
-  //   .then(() => {
-  //     res.send("Message added successfully");
-  //   })
-  //   .catch((error) => {
-  //     console.log("Error updating message:", error);
-  //     res.status(500).send("Error updating message");
-  //   });
-  // console.log(newChat);
   const user1 = newChat.user1;
   const user2 = newChat.user2;
 
@@ -296,29 +263,29 @@ app.post("/messageslist/:sender/:receiver", (req, res) => {
 
         console.log("Message not found");
       } else {
+        res.send(message);
         console.log("Message found");
       }
     })
     .catch((e) => {
-      console.log("Message Error: ", e);
+      console.log("error on get message list route: ", e);
     });
 });
 
-app.get("/messagelists/:userId", (req, res) => {
+app.get("/messagelists/:userId", async (req, res) => {
   const userId = req.params.userId;
-  console.log("userId", userId);
-  Message.find({
+  await Message.find({
     $or: [{ "user1._id": userId }, { "user2._id": userId }],
   })
+    .sort({ updatedAt: -1 })
     .then((lists) => {
-      console.log("lists: ", lists);
       res.send(lists);
-      // res.status(200).json(lists);
     })
     .catch((err) => {
-      console.log(err);
+      console.log("error on get message list route: ", err);
     });
 });
+
 app.post("/userData", (req, res) => {
   const userInfo = req.body;
   console.log(userInfo);

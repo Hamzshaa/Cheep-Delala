@@ -15,7 +15,6 @@ function Navbar() {
   const { loginStatus, loginStatusHandler } = useContext(LoginStatusContext);
   const { isSidebarExpanded, setIsSidebarExpanded } =
     useContext(SidebarStatusContext);
-  console.log(_.isEqual(loginStatus, {}));
 
   function handleSignOut() {
     loginStatusHandler({});
